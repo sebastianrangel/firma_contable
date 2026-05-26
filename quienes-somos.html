@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Quiénes Somos | ELOHANU BUSINESS</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+:root{
+
+    --bg:#0b1026;
+    --card:#151c42;
+    --text:#ffffff;
+    --subtext:#c2c2c2;
+    --primary:#7b4dff;
+    --secondary:#2f80ff;
+    --border:#30407a;
+    --shadow:rgba(0,0,0,0.4);
+}
+
+body.light{
+
+    --bg:#eef2ff;
+    --card:#ffffff;
+    --text:#111111;
+    --subtext:#555555;
+    --primary:#6c3dff;
+    --secondary:#2f80ff;
+    --border:#c8d0ff;
+    --shadow:rgba(0,0,0,0.15);
+}
+
+body{
+
+    background:var(--bg);
+    transition:0.4s;
+}
+
+
+.navbar{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+
+    padding:18px 50px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    z-index:999;
+
+    background:rgba(0,0,0,0.25);
+
+    backdrop-filter:blur(10px);
+
+    border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+body.light .navbar{
+
+    background:rgba(255,255,255,0.75);
+
+    border-bottom:1px solid rgba(0,0,0,0.08);
+}
+
+.logo{
+
+    font-size:32px;
+    font-weight:bold;
+
+    background:linear-gradient(90deg,#ff74d4,#8b7dff);
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    letter-spacing:2px;
+}
+
+.nav-links{
+
+    display:flex;
+    align-items:center;
+
+    gap:30px;
+
+    list-style:none;
+}
+
+.nav-links li a{
+
+    color:var(--text);
+
+    text-decoration:none;
+
+    position:relative;
+
+    transition:0.3s;
+}
+
+.nav-links li a:hover{
+
+    color:var(--secondary);
+}
+
+.nav-links li a::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    bottom:-6px;
+
+    width:0%;
+    height:2px;
+
+    background:var(--secondary);
+
+    transition:0.3s;
+}
+
+.nav-links li a:hover::after{
+
+    width:100%;
+}
+
+/* BOTON TEMA */
+
+.theme-toggle{
+
+    position:relative;
+
+    width:65px;
+    height:32px;
+
+    background:#555;
+
+    border-radius:30px;
+
+    cursor:pointer;
+}
+
+.theme-toggle::before{
+
+    content:"";
+
+    width:24px;
+    height:24px;
+
+    background:white;
+
+    border-radius:50%;
+
+    position:absolute;
+
+    top:4px;
+    left:5px;
+
+    transition:0.3s;
+}
+
+body.light .theme-toggle{
+
+    background:#7d95ff;
+}
+
+body.light .theme-toggle::before{
+
+    left:36px;
+}
+
+/* HERO */
+
+.hero{
+
+    min-height:80vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:140px 8% 50px;
+}
+
+.hero-content{
+
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:50px;
+    align-items:center;
+}
+
+.hero-text h1{
+
+    font-size:60px;
+    color:var(--text);
+    margin-bottom:25px;
+}
+
+.hero-text p{
+
+    color:var(--subtext);
+    line-height:1.8;
+    margin-bottom:20px;
+}
+
+.btn{
+
+    display:inline-block;
+
+    padding:15px 35px;
+
+    border-radius:30px;
+
+    text-decoration:none;
+
+    background:linear-gradient(90deg,var(--primary),var(--secondary));
+
+    color:white;
+
+    margin-top:20px;
+
+    transition:0.3s;
+}
+
+.btn:hover{
+
+    transform:scale(1.05);
+}
+
+.card{
+
+    background:var(--card);
+
+    padding:40px;
+
+    border-radius:20px;
+
+    box-shadow:0 10px 25px var(--shadow);
+
+    border:1px solid var(--border);
+}
+
+.card h2{
+
+    color:var(--text);
+    margin-bottom:20px;
+}
+
+.card p{
+
+    color:var(--subtext);
+    line-height:1.8;
+}
+
+/* SECCIONES */
+
+.section{
+
+    padding:80px 8%;
+}
+
+.section-title{
+
+    text-align:center;
+    color:var(--text);
+    font-size:40px;
+    margin-bottom:50px;
+}
+
+.grid{
+
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:30px;
+}
+
+.box{
+
+    background:var(--card);
+
+    padding:35px;
+
+    border-radius:20px;
+
+    border:1px solid var(--border);
+
+    transition:0.3s;
+}
+
+.box:hover{
+
+    transform:translateY(-10px);
+}
+
+.box h3{
+
+    color:var(--text);
+    margin-bottom:15px;
+}
+
+.box p{
+
+    color:var(--subtext);
+    line-height:1.7;
+}
+
+/* FOOTER */
+
+footer{
+
+    padding:30px;
+    text-align:center;
+    color:var(--subtext);
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+    .hero-content{
+
+        grid-template-columns:1fr;
+    }
+
+    .hero-text h1{
+
+        font-size:45px;
+    }
+
+    .navbar{
+
+        flex-direction:column;
+
+        gap:20px;
+
+        padding:20px;
+    }
+
+    .nav-links{
+
+        flex-wrap:wrap;
+
+        justify-content:center;
+
+        gap:15px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        ELOHANU
+    </div>
+
+    <ul class="nav-links">
+
+        <li>
+            <a href="ELOHANU_BUSINESS.html">
+                Inicio
+            </a>
+        </li>
+
+        <li>
+            <a href="quienes-somos.html">
+                Quiénes Somos
+            </a>
+        </li>
+
+        <li>
+            <a href="blog-noticias.html">
+                Blog
+            </a>
+        </li>
+
+        <li>
+            <a href="contactanos.html">
+                Contáctanos
+            </a>
+        </li>
+
+        <li>
+            <a href="login.html">
+                Login
+            </a>
+        </li>
+
+    </ul>
+
+    <div class="theme-toggle" id="themeBtn"></div>
+
+</nav>
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="hero-text">
+
+            <h1>Quiénes Somos</h1>
+
+            <p>
+                En ELOHANU BUSINESS ofrecemos asesoría contable,
+                tributaria y financiera para empresas y emprendedores
+                en Colombia.
+            </p>
+
+            <p>
+                Nuestro objetivo es ayudar a las organizaciones a
+                crecer mediante estrategias financieras inteligentes,
+                cumplimiento tributario y control administrativo.
+            </p>
+
+            <a href="#" class="btn">
+                Conocer Servicios
+            </a>
+
+        </div>
+
+        <div class="card">
+
+            <h2>Nuestra Historia</h2>
+
+            <p>
+                ELOHANU BUSINESS nació con la visión de transformar
+                la asesoría contable tradicional en una experiencia
+                moderna, tecnológica y cercana para las empresas.
+            </p>
+
+            <br>
+
+            <p>
+                Trabajamos con herramientas digitales y metodologías
+                actualizadas para brindar soluciones ágiles y efectivas
+                en impuestos, auditoría y gestión financiera.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- VALORES -->
+
+<section class="section">
+
+    <h2 class="section-title">
+        Nuestros Valores
+    </h2>
+
+    <div class="grid">
+
+        <div class="box">
+
+            <h3>Transparencia</h3>
+
+            <p>
+                Construimos relaciones basadas en la confianza
+                y la claridad financiera.
+            </p>
+
+        </div>
+
+        <div class="box">
+
+            <h3>Innovación</h3>
+
+            <p>
+                Implementamos herramientas tecnológicas para
+                optimizar procesos contables.
+            </p>
+
+        </div>
+
+        <div class="box">
+
+            <h3>Compromiso</h3>
+
+            <p>
+                Acompañamos a nuestros clientes en cada etapa
+                del crecimiento empresarial.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    © 2026 ELOHANU BUSINESS - Todos los derechos reservados
+
+</footer>
+
+<script>
+
+const themeBtn = document.getElementById("themeBtn");
+
+themeBtn.addEventListener("click",()=>{
+
+    document.body.classList.toggle("light");
+
+});
+
+</script>
+
+</body>
+</html>

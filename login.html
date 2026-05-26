@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ELOHANU Login</title>
+
+  <!-- NAVBAR -->
+<nav class="navbar">
+
+  <div class="nav-logo">
+    ELOHANU
+  </div>
+
+  <ul class="nav-links">
+
+    <li>
+      <a href="login.html">
+        Login
+      </a>
+    </li>
+
+    <li>
+      <a href="ELOHANU_BUSINESS.html">
+        Inicio
+      </a>
+    </li>
+
+    <li>
+      <a href="quienes-somos.html">
+        Quiénes Somos
+      </a>
+    </li>
+
+    <li>
+      <a href="blog-noticias.html">
+        Blog
+      </a>
+    </li>
+
+    <li>
+      <a href="contactanos.html">
+        Contáctanos
+      </a>
+    </li>
+
+  </ul>
+
+</nav>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    :root{
+      --bg:#111b63;
+      --card:#18226f;
+      --text:#ffffff;
+      --input:#0c1452;
+      --border:#3f5ba9;
+      --shadow:rgba(0,0,0,0.4);
+      --gradient:linear-gradient(90deg,#a02eff,#2d7dff);
+      --secondary:#9c63ff;
+    }
+
+    body.light{
+      --bg:#e9eefc;
+      --card:#ffffff;
+      --text:#1b1b1b;
+      --input:#f2f4ff;
+      --border:#9aa8d9;
+      --shadow:rgba(0,0,0,0.15);
+      --gradient:linear-gradient(90deg,#8c3bff,#4a8dff);
+      --secondary:#6f42ff;
+    }
+
+    body{
+      background: var(--bg);
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      transition:0.4s;
+      padding:20px;
+    }
+
+    .container{
+      width:760px;
+      background:var(--card);
+      border-radius:20px;
+      padding:35px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:30px;
+      box-shadow:0 10px 30px var(--shadow);
+      position:relative;
+      transition:0.4s;
+    }
+
+    .left{
+      width:48%;
+    }
+
+    .logo-title{
+      font-size:48px;
+      font-weight:bold;
+      background:linear-gradient(90deg,#ff74d4,#9d7bff);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      margin-bottom:10px;
+    }
+
+    .subtitle{
+      color:#c9c9c9;
+      margin-bottom:40px;
+      font-size:15px;
+    }
+
+    body.light .subtitle{
+      color:#555;
+    }
+
+    label{
+      color:var(--text);
+      display:block;
+      margin-bottom:8px;
+      font-size:14px;
+    }
+
+    .input-box{
+      width:100%;
+      margin-bottom:25px;
+    }
+
+    input{
+      width:100%;
+      height:48px;
+      border-radius:10px;
+      border:2px solid var(--border);
+      background:var(--input);
+      outline:none;
+      color:var(--text);
+      padding:0 15px;
+      font-size:15px;
+      transition:0.3s;
+    }
+
+    input:focus{
+      border-color:#7d9dff;
+      box-shadow:0 0 10px rgba(125,157,255,0.5);
+    }
+
+    .forgot{
+      color:#b57cff;
+      text-decoration:none;
+      font-size:14px;
+      display:inline-block;
+      margin-bottom:20px;
+    }
+
+    .btn{
+      width:100%;
+      height:48px;
+      border:none;
+      border-radius:30px;
+      font-size:15px;
+      font-weight:bold;
+      cursor:pointer;
+      transition:0.3s;
+      margin-bottom:15px;
+    }
+
+    .btn-login{
+      background:var(--gradient);
+      color:white;
+    }
+
+    .btn-login:hover{
+      transform:scale(1.03);
+    }
+
+    .btn-register{
+      background:transparent;
+      border:2px solid #874cff;
+      color:white;
+    }
+
+    body.light .btn-register{
+      color:#333;
+    }
+
+    .btn-register:hover{
+      background:#874cff;
+      color:white;
+    }
+
+    .right{
+      width:48%;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+
+    .logo-box{
+      width:100%;
+      height:250px;
+      background:black;
+      border-radius:12px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      color:white;
+      text-align:center;
+      box-shadow:0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .mountain{
+      width:90px;
+      height:90px;
+      border-left:6px solid white;
+      border-top:6px solid white;
+      transform:rotate(45deg);
+      margin-bottom:20px;
+      position:relative;
+    }
+
+    .mountain::after{
+      content:"";
+      position:absolute;
+      width:40px;
+      height:40px;
+      border-left:6px solid white;
+      border-top:6px solid white;
+      top:18px;
+      left:35px;
+    }
+
+    .logo-text{
+      font-size:42px;
+      letter-spacing:4px;
+      font-weight:bold;
+    }
+
+    .business{
+      margin-top:8px;
+      letter-spacing:8px;
+      font-size:14px;
+    }
+
+    .theme-toggle{
+      position:absolute;
+      top:20px;
+      right:20px;
+    }
+
+    .switch{
+      width:65px;
+      height:32px;
+      background:#444;
+      border-radius:20px;
+      position:relative;
+      cursor:pointer;
+      transition:0.3s;
+    }
+
+    .switch::before{
+      content:"";
+      position:absolute;
+      width:24px;
+      height:24px;
+      border-radius:50%;
+      background:white;
+      top:4px;
+      left:5px;
+      transition:0.3s;
+    }
+
+    body.light .switch{
+      background:#8ca2ff;
+    }
+
+    body.light .switch::before{
+      left:36px;
+    }
+
+    @media(max-width:850px){
+
+      .container{
+        flex-direction:column;
+        width:100%;
+        max-width:500px;
+      }
+
+      .left,
+      .right{
+        width:100%;
+      }
+
+      .logo-box{
+        height:220px;
+      }
+
+      .logo-title{
+        font-size:40px;
+      }
+    }
+
+    /* NAVBAR */
+
+.navbar{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  padding:20px 50px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  z-index:100;
+}
+
+.nav-logo{
+  font-size:32px;
+  font-weight:bold;
+
+  background:linear-gradient(90deg,#ff74d4,#9d7bff);
+
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.nav-links{
+  display:flex;
+  list-style:none;
+  gap:30px;
+}
+
+.nav-links li a{
+  text-decoration:none;
+  color:var(--text);
+  font-size:15px;
+  transition:0.3s;
+  position:relative;
+}
+
+.nav-links li a:hover{
+  color:#8ca2ff;
+}
+
+.nav-links li a::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-5px;
+
+  width:0%;
+  height:2px;
+
+  background:#8ca2ff;
+
+  transition:0.3s;
+}
+
+.nav-links li a:hover::after{
+  width:100%;
+}
+
+/* RESPONSIVE NAVBAR */
+
+@media(max-width:850px){
+
+  .navbar{
+    flex-direction:column;
+    gap:20px;
+    padding:20px;
+  }
+
+  .nav-links{
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:15px;
+  }
+}
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- BOTON MODO OSCURO / CLARO -->
+    <div class="theme-toggle">
+      <div class="switch" id="toggle"></div>
+    </div>
+
+    <!-- IZQUIERDA -->
+    <div class="left">
+
+      <h1 class="logo-title">ELOHANU</h1>
+
+      <p class="subtitle">
+        Plataforma de Asesoría Contable
+      </p>
+
+      <div class="input-box">
+        <label>Usuario:</label>
+        <input type="text">
+      </div>
+
+      <div class="input-box">
+        <label>Contraseña:</label>
+        <input type="password">
+      </div>
+
+      <a href="#" class="forgot">
+        ¿Olvidaste tu contraseña?
+      </a>
+
+      <button class="btn btn-login">
+        INICIAR SESIÓN
+      </button>
+
+      <button class="btn btn-register">
+        REGISTRARSE
+      </button>
+
+    </div>
+
+    <!-- DERECHA -->
+    <div class="right">
+
+      <div class="logo-box">
+
+        <div class="mountain"></div>
+
+        <div class="logo-text">
+          ELOHANU
+        </div>
+
+        <div class="business">
+          BUSINESS
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    const toggle = document.getElementById("toggle");
+
+    toggle.addEventListener("click", () => {
+      document.body.classList.toggle("light");
+    });
+  </script>
+
+</body>
+</html>

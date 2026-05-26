@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Blog de Noticias | ELOHANU BUSINESS</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+:root{
+
+    --bg:#09112b;
+    --card:#151d44;
+    --text:#ffffff;
+    --sub:#b8b8b8;
+    --primary:#7b4dff;
+    --secondary:#2f80ff;
+    --border:#2e3f80;
+    --shadow:rgba(0,0,0,0.4);
+}
+
+body.light{
+
+    --bg:#eef2ff;
+    --card:#ffffff;
+    --text:#111111;
+    --sub:#555555;
+    --primary:#6a3cff;
+    --secondary:#2f80ff;
+    --border:#d5dcff;
+    --shadow:rgba(0,0,0,0.15);
+}
+
+body{
+
+    background:var(--bg);
+    transition:0.4s;
+}
+
+/* NAVBAR */
+
+.navbar{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+
+    padding:18px 50px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    z-index:999;
+
+    background:rgba(0,0,0,0.25);
+
+    backdrop-filter:blur(10px);
+
+    border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+body.light .navbar{
+
+    background:rgba(255,255,255,0.75);
+
+    border-bottom:1px solid rgba(0,0,0,0.08);
+}
+
+.logo{
+
+    font-size:32px;
+    font-weight:bold;
+
+    background:linear-gradient(90deg,#ff74d4,#7d8fff);
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    letter-spacing:2px;
+}
+
+.nav-links{
+
+    display:flex;
+    align-items:center;
+
+    gap:30px;
+
+    list-style:none;
+}
+
+.nav-links li a{
+
+    color:var(--text);
+
+    text-decoration:none;
+
+    position:relative;
+
+    transition:0.3s;
+}
+
+.nav-links li a:hover{
+
+    color:var(--secondary);
+}
+
+.nav-links li a::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    bottom:-6px;
+
+    width:0%;
+    height:2px;
+
+    background:var(--secondary);
+
+    transition:0.3s;
+}
+
+.nav-links li a:hover::after{
+
+    width:100%;
+}
+
+/* BOTON TEMA */
+
+.theme{
+
+    width:65px;
+    height:32px;
+
+    background:#555;
+
+    border-radius:30px;
+
+    position:relative;
+
+    cursor:pointer;
+}
+
+.theme::before{
+
+    content:"";
+
+    width:24px;
+    height:24px;
+
+    background:white;
+
+    border-radius:50%;
+
+    position:absolute;
+
+    top:4px;
+    left:5px;
+
+    transition:0.3s;
+}
+
+body.light .theme{
+
+    background:#88a0ff;
+}
+
+body.light .theme::before{
+
+    left:36px;
+}
+
+/* HEADER */
+
+.header{
+
+    text-align:center;
+
+    padding:150px 20px 60px;
+}
+
+.header h1{
+
+    color:var(--text);
+
+    font-size:55px;
+
+    margin-bottom:20px;
+}
+
+.header p{
+
+    color:var(--sub);
+
+    max-width:700px;
+
+    margin:auto;
+
+    line-height:1.7;
+}
+
+/* BLOG */
+
+.blog{
+
+    padding:20px 8% 80px;
+}
+
+.grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+
+    gap:35px;
+}
+
+.card{
+
+    background:var(--card);
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    border:1px solid var(--border);
+
+    transition:0.3s;
+
+    box-shadow:0 10px 25px var(--shadow);
+}
+
+.card:hover{
+
+    transform:translateY(-10px);
+}
+
+.image{
+
+    height:220px;
+
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+}
+
+.content{
+
+    padding:30px;
+}
+
+.date{
+
+    color:#8ba0ff;
+
+    font-size:14px;
+
+    margin-bottom:15px;
+}
+
+.content h2{
+
+    color:var(--text);
+
+    margin-bottom:20px;
+
+    line-height:1.4;
+}
+
+.content p{
+
+    color:var(--sub);
+
+    line-height:1.8;
+
+    margin-bottom:20px;
+}
+
+.btn{
+
+    display:inline-block;
+
+    padding:12px 25px;
+
+    border-radius:30px;
+
+    background:linear-gradient(90deg,var(--primary),var(--secondary));
+
+    color:white;
+
+    text-decoration:none;
+
+    transition:0.3s;
+}
+
+.btn:hover{
+
+    transform:scale(1.05);
+}
+
+/* FOOTER */
+
+footer{
+
+    text-align:center;
+
+    padding:30px;
+
+    color:var(--sub);
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+    .navbar{
+
+        flex-direction:column;
+
+        gap:20px;
+
+        padding:20px;
+    }
+
+    .nav-links{
+
+        flex-wrap:wrap;
+
+        justify-content:center;
+
+        gap:15px;
+    }
+
+    .header h1{
+
+        font-size:42px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        ELOHANU
+    </div>
+
+    <ul class="nav-links">
+
+        <li>
+            <a href="ELOHANU_BUSINESS.html">
+                Inicio
+            </a>
+        </li>
+
+        <li>
+            <a href="quienes-somos.html">
+                Quiénes Somos
+            </a>
+        </li>
+
+        <li>
+            <a href="blog-noticias.html">
+                Blog
+            </a>
+        </li>
+
+        <li>
+            <a href="contactanos.html">
+                Contáctanos
+            </a>
+        </li>
+
+        <li>
+            <a href="login.html">
+                Login
+            </a>
+        </li>
+
+    </ul>
+
+    <div class="theme" id="themeBtn"></div>
+
+</nav>
+
+<!-- HEADER -->
+
+<section class="header">
+
+    <h1>
+        Noticias Contables
+    </h1>
+
+    <p>
+        Mantente informado sobre novedades tributarias,
+        financieras y contables en Colombia.
+    </p>
+
+</section>
+
+<!-- BLOG -->
+
+<section class="blog">
+
+    <div class="grid">
+
+        <!-- NOTICIA 1 -->
+
+        <div class="card">
+
+            <div class="image"></div>
+
+            <div class="content">
+
+                <div class="date">
+                    12 Mayo 2026
+                </div>
+
+                <h2>
+                    DIAN anuncia nueva plataforma para
+                    declaraciones tributarias digitales
+                </h2>
+
+                <p>
+                    La DIAN presentó una nueva herramienta
+                    tecnológica que permitirá agilizar el
+                    proceso de declaración de impuestos
+                    para pequeñas y medianas empresas.
+                </p>
+
+                <a href="#" class="btn">
+                    Leer más
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- NOTICIA 2 -->
+
+        <div class="card">
+
+            <div class="image"></div>
+
+            <div class="content">
+
+                <div class="date">
+                    18 Mayo 2026
+                </div>
+
+                <h2>
+                    Nuevos beneficios tributarios para
+                    emprendedores en Colombia
+                </h2>
+
+                <p>
+                    El Ministerio de Hacienda estudia
+                    implementar incentivos fiscales para
+                    empresas emergentes enfocadas en
+                    tecnología y comercio digital.
+                </p>
+
+                <a href="#" class="btn">
+                    Leer más
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- NOTICIA 3 -->
+
+        <div class="card">
+
+            <div class="image"></div>
+
+            <div class="content">
+
+                <div class="date">
+                    25 Mayo 2026
+                </div>
+
+                <h2>
+                    Expertos recomiendan fortalecer la
+                    auditoría interna empresarial
+                </h2>
+
+                <p>
+                    Firmas consultoras destacan la importancia
+                    de implementar controles financieros para
+                    prevenir riesgos y mejorar la estabilidad
+                    económica de las organizaciones.
+                </p>
+
+                <a href="#" class="btn">
+                    Leer más
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- NOTICIA 4 -->
+
+        <div class="card">
+
+            <div class="image"></div>
+
+            <div class="content">
+
+                <div class="date">
+                    02 Junio 2026
+                </div>
+
+                <h2>
+                    Empresas colombianas incrementan inversión
+                    en automatización contable
+                </h2>
+
+                <p>
+                    El uso de software financiero y plataformas
+                    de facturación electrónica continúa creciendo
+                    en el sector empresarial colombiano.
+                </p>
+
+                <a href="#" class="btn">
+                    Leer más
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- FOOTER -->
+
+<footer>
+
+    © 2026 ELOHANU BUSINESS - Blog Financiero
+
+</footer>
+
+<script>
+
+const themeBtn = document.getElementById("themeBtn");
+
+themeBtn.addEventListener("click",()=>{
+
+    document.body.classList.toggle("light");
+
+});
+
+</script>
+
+</body>
+</html>
