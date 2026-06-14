@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog de Noticias | ELOHANU BUSINESS</title>
+
+    <!-- Enlace al archivo CSS externo compartido -->
+    <link rel="stylesheet" href="../styles/styles.css">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="logo">
+            ELOHANU
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="ELOHANU_BUSINESS.html">Inicio</a></li>
+            <li><a href="quienes-somos.html">Quiénes Somos</a></li>
+            <li><a href="blog-noticias.html">Blog</a></li>
+            <li><a href="contactanos.html">Contáctanos</a></li>
+            <li><a href="login.html">Login</a></li>
+        </ul>
+
+        <div class="theme-toggle" id="themeBtn"></div>
+    </nav>
+
+    <!-- HEADER -->
+    <section class="header">
+        <h1>Noticias Contables</h1>
+        <p>
+            Mantente informado sobre novedades tributarias,
+            financieras y contables en Colombia.
+        </p>
+    </section>
+
+    <!-- BLOG -->
+    <section class="blog">
+        <div class="grid">
+
+            <!-- NOTICIA 1 -->
+            <div class="card-blog">
+                <div class="image"></div>
+                <div class="content">
+                    <div class="date">12 Mayo 2026</div>
+                    <h2>DIAN anuncia nueva plataforma para declaraciones tributarias digitales</h2>
+                    <p>
+                        La DIAN presentó una nueva herramienta
+                        tecnológica que permitirá agilizar el
+                        proceso de declaración de impuestos
+                        para pequeñas y medianas empresas.
+                    </p>
+                    <a href="#" class="btn">Leer más</a>
+                </div>
+            </div>
+
+            <!-- NOTICIA 2 -->
+            <div class="card-blog">
+                <div class="image"></div>
+                <div class="content">
+                    <div class="date">18 Mayo 2026</div>
+                    <h2>Nuevos beneficios tributarios para emprendedores en Colombia</h2>
+                    <p>
+                        El Ministerio de Hacienda estudia
+                        implementar incentivos fiscales para
+                        empresas emergentes enfocadas en
+                        tecnología y comercio digital.
+                    </p>
+                    <a href="#" class="btn">Leer más</a>
+                </div>
+            </div>
+
+            <!-- NOTICIA 3 -->
+            <div class="card-blog">
+                <div class="image"></div>
+                <div class="content">
+                    <div class="date">25 Mayo 2026</div>
+                    <h2>Expertos recomiendan fortalecer la auditoría interna empresarial</h2>
+                    <p>
+                        Firmas consultoras destacan la importancia
+                        de implementar controles financieros para
+                        prevenir riesgos y mejorar la estabilidad
+                        económica de las organizaciones.
+                    </p>
+                    <a href="#" class="btn">Leer más</a>
+                </div>
+            </div>
+
+            <!-- NOTICIA 4 -->
+            <div class="card-blog">
+                <div class="image"></div>
+                <div class="content">
+                    <div class="date">02 Junio 2026</div>
+                    <h2>Empresas colombianas incrementan inversión en automatización contable</h2>
+                    <p>
+                        El uso de software financiero y plataformas
+                        de facturación electrónica continúa creciendo
+                        en el sector empresarial colombiano.
+                    </p>
+                    <a href="#" class="btn">Leer más</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        © 2026 ELOHANU BUSINESS - Blog Financiero
+    </footer>
+
+    <script>
+        const themeBtn = document.getElementById("themeBtn");
+        themeBtn.addEventListener("click", () => {
+            document.body.classList.toggle("light");
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELOHANU Login</title>
+
+    <!-- Enlace al archivo CSS externo -->
+    <link rel="stylesheet" href="../styles/styles.css">
+</head>
+<body class="login-body">
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-logo">
+            ELOHANU
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="ELOHANU_BUSINESS.html">Inicio</a></li>
+<li><a href="quienes-somos.html">Quiénes Somos</a></li>
+<li><a href="blog-noticias.html">Blog</a></li>
+<li><a href="contactanos.html">Contáctanos</a></li>
+<li><a href="dashboard.html">Dashboard</a></li>
+<li><a href="login.html" class="active">Login</a></li>
+        </ul>
+    </nav>
+
+    <div class="container-login">
+
+        <!-- BOTON MODO OSCURO / CLARO -->
+        <div class="theme-toggle-login">
+            <div class="switch" id="toggle"></div>
+        </div>
+
+        <!-- IZQUIERDA -->
+        <div class="left-login">
+            <h1 class="logo-title-login">ELOHANU</h1>
+
+            <p class="subtitle-login">
+                Plataforma de Asesoría Contable
+            </p>
+
+            <div class="input-box-login">
+                <label>Usuario:</label>
+                <input type="text" placeholder="Ingresa tu usuario">
+            </div>
+
+            <div class="input-box-login">
+                <label>Contraseña:</label>
+                <input type="password" placeholder="Ingresa tu contraseña">
+            </div>
+
+            <a href="#" class="forgot-login">
+                ¿Olvidaste tu contraseña?
+            </a>
+
+            <button class="btn btn-login">
+                INICIAR SESIÓN
+            </button>
+
+            <button class="btn btn-register">
+                REGISTRARSE
+            </button>
+        </div>
+
+        <!-- DERECHA -->
+        <div class="right-login">
+            <div class="logo-box-login">
+                <div class="mountain-login"></div>
+                <div class="logo-text-login">ELOHANU</div>
+                <div class="business-login">BUSINESS</div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const toggle = document.getElementById("toggle");
+
+        toggle.addEventListener("click", () => {
+            document.body.classList.toggle("light");
+        });
+    </script>
+
+</body>
+</html>

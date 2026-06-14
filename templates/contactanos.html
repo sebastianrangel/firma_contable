@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contáctanos | ELOHANU BUSINESS</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">ELOHANU</div>
+        <ul class="nav-links">
+            <li><a href="ELOHANU_BUSINESS.html">Inicio</a></li>
+            <li><a href="quienes-somos.html">Quiénes Somos</a></li>
+            <li><a href="blog-noticias.html">Blog</a></li>
+            <li><a href="contactanos.html">Contáctanos</a></li>
+            <li><a href="login.html">Login</a></li>
+        </ul>
+        <div class="theme-toggle" id="themeBtn"></div>
+    </nav>
+
+    <section class="hero-contacto">
+        <div class="hero-content">
+            <div class="left">
+                <h1>Contáctanos</h1>
+                <p>En ELOHANU BUSINESS estamos listos para ayudarte con asesoría contable, tributaria y financiera para tu empresa o emprendimiento.</p>
+                <p>Nuestro equipo responderá tus solicitudes y consultas lo más pronto posible.</p>
+                
+                <div class="info">
+                    <div class="info-box">
+                        <h3>📍 Dirección</h3>
+                        <p>Avenida Empresarial #45 - 20, Bogotá, Colombia</p>
+                    </div>
+                    <div class="info-box">
+                        <h3>📞 Teléfono</h3>
+                        <p>+57 300 123 4567</p>
+                    </div>
+                    <div class="info-box">
+                        <h3>✉️ Correo</h3>
+                        <p>contacto@elohanu.com</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-card">
+                <h2>Envíanos un mensaje</h2>
+                
+                <form id="formContacto">
+                    <div class="input-group">
+                        <label>Nombre Completo *</label>
+                        <input type="text" id="nombre" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Apellido *</label>
+                        <input type="text" id="apellido" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Correo Electrónico *</label>
+                        <input type="email" id="email" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Teléfono *</label>
+                        <input type="tel" id="telefono" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Ciudad *</label>
+                        <input type="text" id="ciudad" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Dirección</label>
+                        <input type="text" id="direccion">
+                    </div>
+
+                    <div class="input-group">
+                        <label>Servicio de interés</label>
+                        <select id="servicio">
+                            <option value="">Selecciona un servicio</option>
+                            <option value="Asesoría Contable">Asesoría Contable</option>
+                            <option value="Asesoría Tributaria">Asesoría Tributaria</option>
+                            <option value="Asesoría Financiera">Asesoría Financiera</option>
+                            <option value="Auditoría">Auditoría</option>
+                            <option value="Consultoría Empresarial">Consultoría Empresarial</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Fecha preferida</label>
+                        <input type="date" id="fecha" min="">
+                    </div>
+
+                    <div class="input-group">
+                        <label>Hora preferida</label>
+                        <input type="time" id="hora">
+                        <small style="color: var(--subtext);">Formato 24 horas (ej: 14:30)</small>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Mensaje / Consulta</label>
+                        <textarea id="mensaje" rows="4" placeholder="Escribe tu consulta aquí..."></textarea>
+                    </div>
+
+                    <div id="mensajeError" style="color: #ff6b6b; margin-bottom: 15px; display: none; padding: 10px; background: rgba(255,107,107,0.1); border-radius: 8px;"></div>
+                    <div id="mensajeExito" style="color: #51cf66; margin-bottom: 15px; display: none; padding: 10px; background: rgba(81,207,102,0.1); border-radius: 8px;"></div>
+
+                    <button type="submit" class="btn">Enviar Mensaje</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        © 2026 ELOHANU BUSINESS - Todos los derechos reservados
+    </footer>
+
+    <script>
+        // Tema oscuro/claro
+        const themeBtn = document.getElementById("themeBtn");
+        if (themeBtn) {
+            themeBtn.addEventListener("click", () => {
+                document.body.classList.toggle("light");
+            });
+        }
+
+        // Configurar fecha mínima (hoy)
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('fecha').setAttribute('min', today);
+
+        // Función para mostrar mensajes
+        function mostrarMensaje(mensaje, tipo) {
+            const errorDiv = document.getElementById('mensajeError');
+            const exitoDiv = document.getElementById('mensajeExito');
+            
+            if (tipo === 'error') {
+                errorDiv.textContent = mensaje;
+                errorDiv.style.display = 'block';
+                exitoDiv.style.display = 'none';
+                setTimeout(() => {
+                    errorDiv.style.display = 'none';
+                }, 5000);
+            } else {
+                exitoDiv.textContent = mensaje;
+                exitoDiv.style.display = 'block';
+                errorDiv.style.display = 'none';
+                setTimeout(() => {
+                    exitoDiv.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        // Enviar formulario a Flask
+        document.getElementById('formContacto').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Validar campos requeridos
+            const nombre = document.getElementById('nombre').value.trim();
+            const apellido = document.getElementById('apellido').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const telefono = document.getElementById('telefono').value.trim();
+            const ciudad = document.getElementById('ciudad').value.trim();
+            
+            if (!nombre || !apellido || !email || !telefono || !ciudad) {
+                mostrarMensaje('Por favor completa todos los campos obligatorios (*)', 'error');
+                return;
+            }
+            
+            // Validar email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                mostrarMensaje('Por favor ingresa un correo electrónico válido', 'error');
+                return;
+            }
+            
+            // Validar teléfono
+            const telefonoRegex = /^[+\d\s-]+$/;
+            if (!telefonoRegex.test(telefono)) {
+                mostrarMensaje('Por favor ingresa un número de teléfono válido', 'error');
+                return;
+            }
+            
+            const formData = {
+                nombre: nombre,
+                apellido: apellido,
+                email: email,
+                telefono: telefono,
+                ciudad: ciudad,
+                direccion: document.getElementById('direccion').value.trim(),
+                servicio: document.getElementById('servicio').value,
+                fecha: document.getElementById('fecha').value || null,
+                hora: document.getElementById('hora').value || null,
+                mensaje: document.getElementById('mensaje').value.trim()
+            };
+            
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalText = btn.textContent;
+            btn.textContent = 'Enviando...';
+            btn.disabled = true;
+            
+            try {
+                // Enviar al backend de Flask
+                const response = await fetch('http://localhost:3000/api/contacto', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok && result.success) {
+                    mostrarMensaje('✅ ¡Mensaje enviado exitosamente! Te contactaremos pronto.', 'exito');
+                    e.target.reset();
+                    // Resetear fecha mínima después de resetear el formulario
+                    document.getElementById('fecha').setAttribute('min', today);
+                } else {
+                    const errorMsg = result.message || 'Error al enviar el mensaje';
+                    mostrarMensaje('❌ Error: ' + errorMsg, 'error');
+                }
+                
+            } catch (error) {
+                console.error('Error de conexión:', error);
+                mostrarMensaje('❌ Error de conexión. Verifica que el servidor Flask esté corriendo en http://localhost:3000', 'error');
+            } finally {
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

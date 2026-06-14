@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ELOHANU BUSINESS</title>
+
+<!-- ICONOS -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+:root{
+
+    --bg-left:#000000;
+    --bg-right:#140b08;
+
+    --card:#111111;
+    --text:#ffffff;
+    --subtext:#9f9f9f;
+
+    --border:#3b2b25;
+
+    --button-hover:#1f1f1f;
+
+    --input:#3c3c3c;
+
+    --primary:#0d6efd;
+
+    --shadow:rgba(0,0,0,0.4);
+}
+
+body.light{
+
+    --bg-left:#f0f2ff;
+    --bg-right:#ffffff;
+
+    --card:#ffffff;
+    --text:#121212;
+    --subtext:#555555;
+
+    --border:#c8c8c8;
+
+    --button-hover:#ececec;
+
+    --input:#f2f2f2;
+
+    --primary:#0d6efd;
+
+    --shadow:rgba(0,0,0,0.15);
+}
+
+body{
+
+    height:100vh;
+    overflow:hidden;
+    transition:0.4s;
+}
+
+/* NAVBAR */
+
+.navbar{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+
+    padding:18px 50px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    z-index:200;
+
+    background:rgba(0,0,0,0.25);
+
+    backdrop-filter:blur(10px);
+
+    border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+body.light .navbar{
+
+    background:rgba(255,255,255,0.7);
+
+    border-bottom:1px solid rgba(0,0,0,0.08);
+}
+
+.nav-logo{
+
+    font-size:30px;
+    font-weight:bold;
+
+    background:linear-gradient(90deg,#ff74d4,#8b7dff);
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    letter-spacing:2px;
+}
+
+.nav-links{
+
+    display:flex;
+    align-items:center;
+    gap:30px;
+
+    list-style:none;
+}
+
+.nav-links li a{
+
+    color:var(--text);
+
+    text-decoration:none;
+
+    font-size:15px;
+
+    position:relative;
+
+    transition:0.3s;
+}
+
+.nav-links li a:hover{
+
+    color:#7da1ff;
+}
+
+.nav-links li a::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+    bottom:-6px;
+
+    width:0%;
+    height:2px;
+
+    background:#7da1ff;
+
+    transition:0.3s;
+}
+
+.nav-links li a:hover::after{
+
+    width:100%;
+}
+
+/* BOTON TEMA */
+
+.theme-toggle{
+
+    position:relative;
+}
+
+.switch{
+
+    width:65px;
+    height:32px;
+
+    background:#444;
+
+    border-radius:30px;
+
+    position:relative;
+
+    cursor:pointer;
+
+    transition:0.3s;
+}
+
+.switch::before{
+
+    content:"";
+
+    width:24px;
+    height:24px;
+
+    background:white;
+
+    border-radius:50%;
+
+    position:absolute;
+
+    top:4px;
+    left:5px;
+
+    transition:0.3s;
+}
+
+body.light .switch{
+
+    background:#7da1ff;
+}
+
+body.light .switch::before{
+
+    left:36px;
+}
+
+/* CONTAINER */
+
+.container{
+
+    display:flex;
+    height:100vh;
+}
+
+/* IZQUIERDA */
+
+.left{
+
+    width:50%;
+    background:var(--bg-left);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+
+    position:relative;
+    transition:0.4s;
+}
+
+.logo{
+
+    text-align:center;
+    color:white;
+}
+
+body.light .logo{
+    color:#111;
+}
+
+.mountain{
+
+    width:90px;
+    height:90px;
+
+    border-left:6px solid currentColor;
+    border-top:6px solid currentColor;
+
+    transform:rotate(45deg);
+
+    margin:0 auto 25px auto;
+
+    position:relative;
+}
+
+.mountain::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:40px;
+    height:40px;
+
+    border-left:6px solid currentColor;
+    border-top:6px solid currentColor;
+
+    top:18px;
+    left:35px;
+}
+
+.logo h1{
+
+    font-size:70px;
+    letter-spacing:8px;
+    margin-bottom:10px;
+}
+
+.logo p{
+
+    letter-spacing:12px;
+    color:var(--subtext);
+    margin-bottom:40px;
+}
+
+.logo h2{
+
+    font-size:50px;
+    letter-spacing:5px;
+}
+
+.slogan{
+
+    margin-top:20px;
+    color:var(--subtext);
+    font-size:13px;
+}
+
+/* DERECHA */
+
+.right{
+
+    width:50%;
+    background:var(--bg-right);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    position:relative;
+    transition:0.4s;
+}
+
+.menu{
+
+    width:320px;
+}
+
+.menu button{
+
+    width:100%;
+    height:50px;
+
+    margin-bottom:10px;
+
+    background:transparent;
+
+    border:1px solid var(--border);
+
+    color:var(--subtext);
+
+    cursor:pointer;
+
+    transition:0.3s;
+
+    font-size:15px;
+}
+
+.menu button:hover{
+
+    background:var(--button-hover);
+    color:var(--text);
+}
+
+/* SUBMENUS */
+
+.submenu{
+
+    max-height:0;
+    overflow:hidden;
+    transition:0.4s ease;
+
+    margin-bottom:15px;
+}
+
+.submenu.active{
+
+    max-height:300px;
+}
+
+.submenu div{
+
+    padding:12px;
+    border:1px solid var(--border);
+    color:var(--subtext);
+    margin-top:5px;
+    background:rgba(255,255,255,0.02);
+    transition:0.3s;
+}
+
+.submenu div:hover{
+
+    background:var(--button-hover);
+    color:var(--text);
+}
+
+/* REDES */
+
+.social{
+
+    display:flex;
+    justify-content:center;
+    gap:18px;
+
+    margin-top:35px;
+}
+
+.social a{
+
+    width:45px;
+    height:45px;
+
+    border-radius:50%;
+
+    border:1px solid var(--border);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    color:white;
+
+    text-decoration:none;
+
+    font-size:18px;
+
+    background:rgba(255,255,255,0.03);
+
+    transition:0.3s;
+}
+
+body.light .social a{
+
+    color:#111;
+}
+
+.social a:hover{
+
+    transform:translateY(-5px) scale(1.08);
+
+    background:linear-gradient(135deg,#7b4dff,#2f80ff);
+
+    color:white;
+
+    box-shadow:0 8px 20px rgba(0,0,0,0.3);
+}
+
+/* MODAL */
+
+.modal{
+
+    position:fixed;
+
+    top:50%;
+    left:50%;
+
+    transform:translate(-50%,-50%);
+
+    width:320px;
+
+    background:var(--card);
+
+    padding:25px;
+
+    border-radius:10px;
+
+    box-shadow:0 5px 20px var(--shadow);
+
+    z-index:100;
+
+    transition:0.4s;
+
+    display:none;
+}
+
+.modal.active{
+
+    display:block;
+}
+
+.modal-header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:15px;
+
+    cursor:move;
+    user-select:none;
+}
+
+.modal-header h3{
+
+    color:var(--text);
+}
+
+.close{
+
+    color:var(--text);
+    cursor:pointer;
+    font-size:20px;
+}
+
+.close:hover{
+
+    color:var(--primary);
+}
+
+.modal label{
+
+    color:var(--text);
+    font-size:14px;
+}
+
+.modal input{
+
+    width:100%;
+    height:40px;
+
+    margin-top:5px;
+    margin-bottom:15px;
+
+    background:var(--input);
+
+    border:1px solid #666;
+
+    padding:10px;
+
+    color:var(--text);
+}
+
+.modal button{
+
+    width:100%;
+    height:40px;
+
+    background:var(--primary);
+
+    border:none;
+
+    color:white;
+
+    cursor:pointer;
+}
+
+.overlay{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:100%;
+
+    background:rgba(0,0,0,0.5);
+
+    z-index:99;
+
+    display:none;
+}
+
+.overlay.active{
+
+    display:block;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1000px){
+
+    body{
+        overflow:auto;
+    }
+
+    .container{
+
+        flex-direction:column;
+    }
+
+    .left,
+    .right{
+
+        width:100%;
+        min-height:50vh;
+    }
+
+    .logo h1{
+
+        font-size:45px;
+    }
+
+    .navbar{
+
+        flex-direction:column;
+        gap:20px;
+
+        padding:20px;
+    }
+
+    .nav-links{
+
+        flex-wrap:wrap;
+        justify-content:center;
+        gap:15px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+    <div class="nav-logo">
+        ELOHANU
+    </div>
+
+    <ul class="nav-links">
+
+        <li>
+            <a href="ELOHANU_BUSINESS.html">
+                Inicio
+            </a>
+        </li>
+
+        <li>
+            <a href="quienes-somos.html">
+                Quiénes Somos
+            </a>
+        </li>
+
+        <li>
+            <a href="blog-noticias.html">
+                Blog
+            </a>
+        </li>
+
+        <li>
+            <a href="contactanos.html">
+                Contáctanos
+            </a>
+        </li>
+
+        <li>
+            <a href="login.html">
+                Login
+            </a>
+        </li>
+
+         <li>
+            <a href="dashboard.html">
+                Dashboard
+            </a>
+        </li>
+
+        <li>
+            <div class="theme-toggle">
+                <div class="switch" id="themeBtn"></div>
+            </div>
+        </li>
+
+    </ul>
+
+</nav>
+
+<div class="container">
+
+    <!-- IZQUIERDA -->
+
+    <div class="left">
+
+        <div class="logo">
+
+            <div class="mountain"></div>
+
+            <h1>ELOHANU</h1>
+
+            <p>BUSINESS</p>
+
+            <h2>ELOHANU</h2>
+
+            <p>BUSINESS</p>
+
+            <div class="slogan">
+                CUIDAMOS TUS NÚMEROS, IMPULSAMOS TUS SUEÑOS.
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- DERECHA -->
+
+    <div class="right">
+
+        <div class="overlay" id="overlay"></div>
+
+        <!-- MODAL -->
+
+        <div class="modal" id="modal">
+
+            <div class="modal-header" id="modalHeader">
+
+                <h3>Agendar una cita</h3>
+
+                <span class="close" id="closeModal">&times;</span>
+
+            </div>
+
+            <label>Nombre:</label>
+            <input type="text" placeholder="Tu nombre">
+
+            <label>Teléfono:</label>
+            <input type="text" placeholder="Tu teléfono">
+
+            <label>Correo:</label>
+            <input type="email" placeholder="Tu correo electrónico">
+
+            <label>Fecha de la cita:</label>
+            <input type="date">
+
+            <button>Insertar</button>
+
+        </div>
+
+        <!-- MENU -->
+
+        <div class="menu">
+
+            <button onclick="openModal()">
+                Agendar cita
+            </button>
+
+            <button onclick="toggleMenu('menu2')">
+                Impuestos
+            </button>
+
+            <div class="submenu" id="menu2">
+
+                <div>Declaración de renta</div>
+                <div>IVA</div>
+                <div>Retención</div>
+
+            </div>
+
+            <button onclick="toggleMenu('menu3')">
+                Auditoría
+            </button>
+
+            <div class="submenu" id="menu3">
+
+                <div>Auditoría Interna</div>
+                <div>Control Financiero</div>
+                <div>Revisión Fiscal</div>
+
+            </div>
+
+            <button onclick="toggleMenu('menu4')">
+                Consultoría Financiera
+            </button>
+
+            <div class="submenu" id="menu4">
+
+                <div>Planeación Financiera</div>
+                <div>Asesoría Empresarial</div>
+                <div>Inversiones</div>
+
+            </div>
+
+            <button onclick="toggleMenu('menu5')">
+                Gestión Laboral
+            </button>
+
+            <div class="submenu" id="menu5">
+
+                <div>Nómina</div>
+                <div>Contratación</div>
+                <div>Seguridad Social</div>
+
+            </div>
+
+            <button onclick="toggleMenu('menu6')">
+                Análisis y Control de Costos
+            </button>
+
+            <div class="submenu" id="menu6">
+
+                <div>Costos Operativos</div>
+                <div>Presupuestos</div>
+                <div>Optimización Financiera</div>
+
+            </div>
+
+            <!-- REDES -->
+
+            <div class="social">
+
+                <a href="https://facebook.com" target="_blank">
+                    <i class="fa-brands fa-facebook-f"></i>
+                </a>
+
+                <a href="https://instagram.com" target="_blank">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+
+                <a href="https://x.com" target="_blank">
+                    <i class="fa-brands fa-x-twitter"></i>
+                </a>
+
+                <a href="https://linkedin.com" target="_blank">
+                    <i class="fa-brands fa-linkedin-in"></i>
+                </a>
+
+                <a href="https://youtube.com" target="_blank">
+                    <i class="fa-brands fa-youtube"></i>
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+/* CAMBIO TEMA */
+
+const themeBtn = document.getElementById("themeBtn");
+
+themeBtn.addEventListener("click", ()=>{
+
+    document.body.classList.toggle("light");
+
+});
+
+/* MENUS */
+
+function toggleMenu(id){
+
+    const menu = document.getElementById(id);
+
+    menu.classList.toggle("active");
+}
+
+/* MODAL */
+
+const modal = document.getElementById("modal");
+const overlay = document.getElementById("overlay");
+const closeModal = document.getElementById("closeModal");
+
+function openModal(){
+
+    modal.classList.add("active");
+    overlay.classList.add("active");
+}
+
+function closeModalFunction(){
+
+    modal.classList.remove("active");
+    overlay.classList.remove("active");
+}
+
+closeModal.addEventListener("click", closeModalFunction);
+
+overlay.addEventListener("click", closeModalFunction);
+
+/* MODAL DRAG */
+
+const modalHeader = document.getElementById("modalHeader");
+
+let isDragging = false;
+let offsetX, offsetY;
+
+modalHeader.addEventListener("mousedown", (e) => {
+
+    isDragging = true;
+
+    const rect = modal.getBoundingClientRect();
+
+    offsetX = e.clientX - rect.left;
+    offsetY = e.clientY - rect.top;
+
+    modal.style.transition = "none";
+
+    e.preventDefault();
+});
+
+document.addEventListener("mousemove", (e) => {
+
+    if (!isDragging) return;
+
+    const x = e.clientX - offsetX;
+    const y = e.clientY - offsetY;
+
+    modal.style.left = x + "px";
+    modal.style.top = y + "px";
+    modal.style.transform = "none";
+});
+
+document.addEventListener("mouseup", () => {
+
+    if (isDragging) {
+
+        isDragging = false;
+        modal.style.transition = "0.4s";
+    }
+});
+
+/* ESC */
+
+document.addEventListener("keydown", (e) => {
+
+    if (e.key === "Escape") {
+
+        closeModalFunction();
+    }
+});
+
+</script>
+
+</body>
+</html>

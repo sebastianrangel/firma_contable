@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | ELOHANU BUSINESS</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: #2c3e50;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links li a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .nav-links li a:hover {
+            background: #34495e;
+        }
+
+        .nav-links li a.active {
+            background: #3498db;
+        }
+
+        .theme-toggle {
+            cursor: pointer;
+            padding: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        /* Modo oscuro/claro */
+        body.light {
+            background: #ffffff;
+            color: #333;
+        }
+
+        body.light .navbar {
+            background: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        body.light .navbar a {
+            color: #333;
+        }
+
+        body.light .navbar a:hover {
+            background: #e0e0e0;
+        }
+
+        body.light .footer {
+            background: #f8f9fa;
+            color: #666;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        body.light .stat-card {
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+        }
+
+        .stat-card h3 {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #7f8c8d;
+            transition: all 0.3s;
+        }
+
+        .tab-btn:hover {
+            color: #2c3e50;
+        }
+
+        .tab-btn.active {
+            color: #3498db;
+            border-bottom: 2px solid #3498db;
+            margin-bottom: -2px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Tables */
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            overflow-x: auto;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        body.light .table-container {
+            border: 1px solid #e0e0e0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        /* Badges */
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .badge-pendiente {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-confirmada {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .badge-completada {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-cancelada {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+        }
+
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #229954;
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            margin: 0 0.25rem;
+        }
+
+        select.btn-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            min-width: 400px;
+            max-width: 500px;
+        }
+
+        body.light .modal-content {
+            background: white;
+            border: 1px solid #e0e0e0;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .close {
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #7f8c8d;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        /* Alert */
+        .alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem;
+            border-radius: 5px;
+            color: white;
+            z-index: 1100;
+            animation: slideIn 0.3s ease;
+        }
+
+        .alert-success {
+            background: #27ae60;
+        }
+
+        .alert-error {
+            background: #e74c3c;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        body.light .footer {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            th, td {
+                padding: 0.5rem;
+            }
+            
+            .nav-links {
+                gap: 0.5rem;
+            }
+            
+            .nav-links li a {
+                padding: 0.25rem 0.5rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">ELOHANU</div>
+        <ul class="nav-links">
+            <li><a href="ELOHANU_BUSINESS.html">Inicio</a></li>
+            <li><a href="quienes-somos.html">Quiénes Somos</a></li>
+            <li><a href="blog-noticias.html">Blog</a></li>
+            <li><a href="contactanos.html">Contáctanos</a></li>
+            <li><a href="dashboard.html" class="active">Dashboard</a></li>
+            <li><a href="login.html">Login</a></li>
+        </ul>
+        <div class="theme-toggle" id="themeBtn">🌓</div>
+    </nav>
+
+    <div class="container">
+        <!-- Stats Cards -->
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <h3>Total Citas</h3>
+                <div class="stat-number" id="totalCitas">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Citas Hoy</h3>
+                <div class="stat-number" id="citasHoy">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Total Clientes</h3>
+                <div class="stat-number" id="totalClientes">0</div>
+            </div>
+            <div class="stat-card">
+                <h3>Total Servicios</h3>
+                <div class="stat-number" id="totalServicios">0</div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('citas')">📋 Citas</button>
+            <button class="tab-btn" onclick="switchTab('servicios')">🔧 Servicios</button>
+        </div>
+
+        <!-- Citas Tab -->
+        <div id="citasTab" class="tab-content active">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Cliente</th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="citasTableBody">
+                        <tr>
+                            <td colspan="8" style="text-align: center;">Cargando...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Servicios Tab -->
+        <div id="serviciosTab" class="tab-content">
+            <div style="margin-bottom: 1rem;">
+                <button class="btn btn-primary" onclick="abrirModalServicio()">+ Nuevo Servicio</button>
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Precio</th>
+                            <th>Duración</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="serviciosTableBody">
+                        <tr>
+                            <td colspan="6" style="text-align: center;">Cargando...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        © 2026 ELOHANU BUSINESS - Todos los derechos reservados
+    </footer>
+
+    <!-- Modal para Servicios -->
+    <div id="servicioModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Nuevo Servicio</h3>
+                <span class="close" onclick="cerrarModalServicio()">&times;</span>
+            </div>
+            <form id="servicioForm">
+                <input type="hidden" id="servicioId">
+                <div class="form-group">
+                    <label>Nombre *</label>
+                    <input type="text" id="servicioNombre" required>
+                </div>
+                <div class="form-group">
+                    <label>Descripción</label>
+                    <textarea id="servicioDescripcion" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Precio</label>
+                    <input type="number" id="servicioPrecio" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label>Duración (minutos)</label>
+                    <input type="number" id="servicioDuracion">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="button" class="btn" onclick="cerrarModalServicio()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+
+        // Tema oscuro/claro
+        const themeBtn = document.getElementById("themeBtn");
+        if (themeBtn) {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.body.classList.add('light');
+            }
+            
+            themeBtn.addEventListener("click", () => {
+                document.body.classList.toggle("light");
+                if (document.body.classList.contains('light')) {
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    localStorage.setItem('theme', 'dark');
+                }
+            });
+        }
+
+        // Cargar datos iniciales
+        function cargarDatos() {
+            cargarEstadisticas();
+            cargarCitas();
+            cargarServicios();
+        }
+
+        // Cargar estadísticas
+        async function cargarEstadisticas() {
+            try {
+                const response = await fetch(`${API_URL}/stats`);
+                const data = await response.json();
+                
+                document.getElementById('totalCitas').textContent = data.total_citas || 0;
+                document.getElementById('citasHoy').textContent = data.citas_hoy || 0;
+                document.getElementById('totalClientes').textContent = data.total_clientes || 0;
+                document.getElementById('totalServicios').textContent = data.total_servicios || 0;
+            } catch (error) {
+                console.error('Error cargando estadísticas:', error);
+            }
+        }
+
+        // Cargar citas
+        async function cargarCitas() {
+            try {
+                const response = await fetch(`${API_URL}/citas`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const citas = await response.json();
+                
+                const tbody = document.getElementById('citasTableBody');
+                if (!citas || citas.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="8" style="text-align: center;">No hay citas registradas</td></tr>';
+                    return;
+                }
+                
+                tbody.innerHTML = citas.map(cita => `
+                    <tr>
+                        <td>${cita.id_cita}</td>
+                        <td>${cita.nombre || 'N/A'} ${cita.apellido || ''}</td>
+                        <td>${cita.email || 'N/A'}</td>
+                        <td>${cita.telefono || 'N/A'}</td>
+                        <td>${cita.fecha || 'N/A'}</td>
+                        <td>${cita.hora || 'N/A'}</td>
+                        <td>
+                            <span class="badge badge-${cita.estado}">${cita.estado || 'pendiente'}</span>
+                        </td>
+                        <td class="actions">
+                            <select onchange="cambiarEstado(${cita.id_cita}, this.value)" class="btn-sm">
+                                <option value="">Cambiar estado</option>
+                                <option value="pendiente" ${cita.estado === 'pendiente' ? 'selected' : ''}>Pendiente</option>
+                                <option value="confirmada" ${cita.estado === 'confirmada' ? 'selected' : ''}>Confirmada</option>
+                                <option value="completada" ${cita.estado === 'completada' ? 'selected' : ''}>Completada</option>
+                                <option value="cancelada" ${cita.estado === 'cancelada' ? 'selected' : ''}>Cancelada</option>
+                            </select>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Error cargando citas:', error);
+                document.getElementById('citasTableBody').innerHTML = '<tr><td colspan="8" style="text-align: center; color: red;">Error al cargar citas: ' + error.message + '</td></tr>';
+            }
+        }
+
+        // Cambiar estado de cita
+        async function cambiarEstado(citaId, nuevoEstado) {
+            if (!nuevoEstado) return;
+            
+            try {
+                const response = await fetch(`${API_URL}/citas/${citaId}/estado`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ estado: nuevoEstado })
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    mostrarAlerta('Estado actualizado correctamente', 'success');
+                    cargarCitas();
+                    cargarEstadisticas();
+                } else {
+                    mostrarAlerta(result.error || 'Error al actualizar estado', 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                mostrarAlerta('Error al actualizar estado', 'error');
+            }
+        }
+
+        // Cargar servicios
+        async function cargarServicios() {
+            try {
+                const response = await fetch(`${API_URL}/servicios`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const servicios = await response.json();
+                
+                const tbody = document.getElementById('serviciosTableBody');
+                if (!servicios || servicios.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No hay servicios registrados</td></tr>';
+                    return;
+                }
+                
+                tbody.innerHTML = servicios.map(servicio => `
+                    <tr>
+                        <td>${servicio.id_servicio}</td>
+                        <td>${servicio.nombre}</td>
+                        <td>${servicio.descripcion || '-'}</td>
+                        <td>${servicio.precio ? `$${servicio.precio}` : '-'}</td>
+                        <td>${servicio.duracion ? `${servicio.duracion} min` : '-'}</td>
+                        <td class="actions">
+                            <button class="btn btn-primary btn-sm" onclick="editarServicio(${servicio.id_servicio})">Editar</button>
+                            <button class="btn btn-danger btn-sm" onclick="eliminarServicio(${servicio.id_servicio})">Eliminar</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Error cargando servicios:', error);
+                document.getElementById('serviciosTableBody').innerHTML = '<tr><td colspan="6" style="text-align: center; color: red;">Error al cargar servicios: ' + error.message + '</td></tr>';
+            }
+        }
+
+        // Abrir modal para nuevo/editar servicio
+        function abrirModalServicio(servicio = null) {
+            const modal = document.getElementById('servicioModal');
+            const title = document.getElementById('modalTitle');
+            
+            if (servicio) {
+                title.textContent = 'Editar Servicio';
+                document.getElementById('servicioId').value = servicio.id_servicio;
+                document.getElementById('servicioNombre').value = servicio.nombre;
+                document.getElementById('servicioDescripcion').value = servicio.descripcion || '';
+                document.getElementById('servicioPrecio').value = servicio.precio || '';
+                document.getElementById('servicioDuracion').value = servicio.duracion || '';
+            } else {
+                title.textContent = 'Nuevo Servicio';
+                document.getElementById('servicioForm').reset();
+                document.getElementById('servicioId').value = '';
+            }
+            
+            modal.style.display = 'block';
+        }
+
+        function editarServicio(id) {
+            fetch(`${API_URL}/servicios`)
+                .then(res => res.json())
+                .then(servicios => {
+                    const servicio = servicios.find(s => s.id_servicio === id);
+                    if (servicio) {
+                        abrirModalServicio(servicio);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    mostrarAlerta('Error al cargar el servicio', 'error');
+                });
+        }
+
+        function cerrarModalServicio() {
+            document.getElementById('servicioModal').style.display = 'none';
+        }
+
+        // Guardar servicio
+        document.getElementById('servicioForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const id = document.getElementById('servicioId').value;
+            const data = {
+                nombre: document.getElementById('servicioNombre').value,
+                descripcion: document.getElementById('servicioDescripcion').value,
+                precio: document.getElementById('servicioPrecio').value || null,
+                duracion: document.getElementById('servicioDuracion').value || null
+            };
+            
+            const url = id ? `${API_URL}/servicios/${id}` : `${API_URL}/servicios`;
+            const method = id ? 'PUT' : 'POST';
+            
+            try {
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    mostrarAlerta(id ? 'Servicio actualizado' : 'Servicio creado', 'success');
+                    cerrarModalServicio();
+                    cargarServicios();
+                    cargarEstadisticas();
+                } else {
+                    mostrarAlerta(result.error || 'Error al guardar servicio', 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                mostrarAlerta('Error al guardar servicio', 'error');
+            }
+        });
+
+        // Eliminar servicio
+        async function eliminarServicio(id) {
+            if (!confirm('¿Estás seguro de eliminar este servicio?')) return;
+            
+            try {
+                const response = await fetch(`${API_URL}/servicios/${id}`, {
+                    method: 'DELETE'
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    mostrarAlerta('Servicio eliminado', 'success');
+                    cargarServicios();
+                    cargarEstadisticas();
+                } else {
+                    mostrarAlerta(result.error || 'Error al eliminar servicio', 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                mostrarAlerta('Error al eliminar servicio', 'error');
+            }
+        }
+
+        // Cambiar tabs
+        function switchTab(tab) {
+            const btns = document.querySelectorAll('.tab-btn');
+            btns.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            document.getElementById('citasTab').classList.remove('active');
+            document.getElementById('serviciosTab').classList.remove('active');
+            document.getElementById(`${tab}Tab`).classList.add('active');
+        }
+
+        // Mostrar alerta
+        function mostrarAlerta(mensaje, tipo) {
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${tipo}`;
+            alert.textContent = mensaje;
+            document.body.appendChild(alert);
+            
+            setTimeout(() => {
+                alert.remove();
+            }, 3000);
+        }
+
+        // Cerrar modal al hacer clic fuera
+        window.onclick = function(event) {
+            const modal = document.getElementById('servicioModal');
+            if (event.target === modal) {
+                cerrarModalServicio();
+            }
+        }
+
+        // Inicializar
+        cargarDatos();
+        // Actualizar cada 30 segundos
+        setInterval(() => {
+            cargarCitas();
+            cargarEstadisticas();
+        }, 30000);
+    </script>
+</body>
+</html>

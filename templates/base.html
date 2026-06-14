@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ELOHANU BUSINESS{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* Modo oscuro/claro */
+        body.light {
+            background: #ffffff;
+            color: #333;
+        }
+
+        body.light .navbar {
+            background: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        body.light .navbar a {
+            color: #333;
+        }
+
+        body.light .footer {
+            background: #f8f9fa;
+            color: #666;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: #2c3e50;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .logo a {
+            color: white;
+            text-decoration: none;
+        }
+
+        body.light .logo a {
+            color: #2c3e50;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links li a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .nav-links li a:hover {
+            background: #34495e;
+        }
+
+        body.light .nav-links li a:hover {
+            background: #e0e0e0;
+        }
+
+        .nav-links li a.active {
+            background: #3498db;
+        }
+
+        .theme-toggle {
+            cursor: pointer;
+            padding: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        body.light .footer {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: calc(100vh - 200px);
+        }
+
+        /* Botones */
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <a href="{{ url_for('index') }}">ELOHANU BUSINESS</a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="{{ url_for('index') }}" class="{% if request.endpoint == 'index' %}active{% endif %}">Inicio</a></li>
+            <li><a href="{{ url_for('quienes_somos') }}" class="{% if request.endpoint == 'quienes_somos' %}active{% endif %}">Quiénes Somos</a></li>
+            <li><a href="{{ url_for('blog') }}" class="{% if request.endpoint == 'blog' %}active{% endif %}">Blog</a></li>
+            <li><a href="{{ url_for('contacto') }}" class="{% if request.endpoint == 'contacto' %}active{% endif %}">Contáctanos</a></li>
+            <li><a href="{{ url_for('dashboard') }}" class="{% if request.endpoint == 'dashboard' %}active{% endif %}">Dashboard</a></li>
+            <li><a href="{{ url_for('login') }}" class="{% if request.endpoint == 'login' %}active{% endif %}">Login</a></li>
+        </ul>
+        <div class="theme-toggle" id="themeBtn">🌓</div>
+    </nav>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 ELOHANU BUSINESS - Todos los derechos reservados</p>
+    </footer>
+
+    <script>
+        // Tema oscuro/claro
+        const themeBtn = document.getElementById("themeBtn");
+        if (themeBtn) {
+            // Cargar tema guardado
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.body.classList.add('light');
+            }
+            
+            themeBtn.addEventListener("click", () => {
+                document.body.classList.toggle("light");
+                if (document.body.classList.contains('light')) {
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    localStorage.setItem('theme', 'dark');
+                }
+            });
+        }
+    </script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

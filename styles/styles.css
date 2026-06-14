@@ -1,0 +1,720 @@
+/* ============================================
+   GLOBALES Y VARIABLES
+   ============================================ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+:root {
+    --bg: #0b1026;
+    --card: #151c42;
+    --text: #ffffff;
+    --subtext: #c2c2c2;
+    --primary: #7b4dff;
+    --secondary: #2f80ff;
+    --border: #30407a;
+    --shadow: rgba(0, 0, 0, 0.4);
+    --input: #0d163d;
+    --gradient: linear-gradient(90deg, #7b4dff, #2f80ff);
+}
+
+body.light {
+    --bg: #eef2ff;
+    --card: #ffffff;
+    --text: #111111;
+    --subtext: #555555;
+    --primary: #6c3dff;
+    --secondary: #2f80ff;
+    --border: #c8d0ff;
+    --shadow: rgba(0, 0, 0, 0.15);
+    --input: #f4f6ff;
+    --gradient: linear-gradient(90deg, #6c3dff, #2f80ff);
+}
+
+body {
+    background: var(--bg);
+    transition: 0.4s;
+}
+
+/* ============================================
+   NAVBAR (COMÚN A TODAS LAS PÁGINAS)
+   ============================================ */
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 18px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 999;
+    background: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+body.light .navbar {
+    background: rgba(255, 255, 255, 0.75);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* Para login.html (navbar sin fixed porque el body tiene flex) */
+.login-body .navbar {
+    position: absolute;
+}
+
+.nav-logo {
+    font-size: 32px;
+    font-weight: bold;
+    background: linear-gradient(90deg, #ff74d4, #8b7dff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 2px;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    list-style: none;
+}
+
+.nav-links li a {
+    color: var(--text);
+    text-decoration: none;
+    position: relative;
+    transition: 0.3s;
+}
+
+.nav-links li a:hover {
+    color: var(--secondary);
+}
+
+.nav-links li a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 0%;
+    height: 2px;
+    background: var(--secondary);
+    transition: 0.3s;
+}
+
+.nav-links li a:hover::after {
+    width: 100%;
+}
+
+/* ============================================
+   BOTÓN DE TEMA (COMÚN)
+   ============================================ */
+
+.theme-toggle {
+    position: relative;
+    width: 65px;
+    height: 32px;
+    background: #555;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.theme-toggle::before {
+    content: "";
+    width: 24px;
+    height: 24px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 4px;
+    left: 5px;
+    transition: 0.3s;
+}
+
+body.light .theme-toggle {
+    background: #7d95ff;
+}
+
+body.light .theme-toggle::before {
+    left: 36px;
+}
+
+/* Switch para login */
+.switch {
+    width: 65px;
+    height: 32px;
+    background: #444;
+    border-radius: 20px;
+    position: relative;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.switch::before {
+    content: "";
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: white;
+    top: 4px;
+    left: 5px;
+    transition: 0.3s;
+}
+
+body.light .switch {
+    background: #8ca2ff;
+}
+
+body.light .switch::before {
+    left: 36px;
+}
+
+/* ============================================
+   BOTONES GENERALES
+   ============================================ */
+
+.btn {
+    display: inline-block;
+    padding: 12px 25px;
+    border-radius: 30px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    color: white;
+    text-decoration: none;
+    transition: 0.3s;
+    border: none;
+    cursor: pointer;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+/* ============================================
+   QUIÉNES SOMOS (PÁGINA 1)
+   ============================================ */
+
+.hero-quienes {
+    min-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 140px 8% 50px;
+}
+
+.hero-quienes .hero-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: center;
+}
+
+.hero-text h1 {
+    font-size: 60px;
+    color: var(--text);
+    margin-bottom: 25px;
+}
+
+.hero-text p {
+    color: var(--subtext);
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+.card-info {
+    background: var(--card);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px var(--shadow);
+    border: 1px solid var(--border);
+}
+
+.card-info h2 {
+    color: var(--text);
+    margin-bottom: 20px;
+}
+
+.card-info p {
+    color: var(--subtext);
+    line-height: 1.8;
+}
+
+.section {
+    padding: 80px 8%;
+}
+
+.section-title {
+    text-align: center;
+    color: var(--text);
+    font-size: 40px;
+    margin-bottom: 50px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.box {
+    background: var(--card);
+    padding: 35px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    transition: 0.3s;
+}
+
+.box:hover {
+    transform: translateY(-10px);
+}
+
+.box h3 {
+    color: var(--text);
+    margin-bottom: 15px;
+}
+
+.box p {
+    color: var(--subtext);
+    line-height: 1.7;
+}
+
+/* ============================================
+   BLOG (PÁGINA 2)
+   ============================================ */
+
+.header-blog {
+    text-align: center;
+    padding: 150px 20px 60px;
+}
+
+.header-blog h1 {
+    color: var(--text);
+    font-size: 55px;
+    margin-bottom: 20px;
+}
+
+.header-blog p {
+    color: var(--subtext);
+    max-width: 700px;
+    margin: auto;
+    line-height: 1.7;
+}
+
+.blog {
+    padding: 20px 8% 80px;
+}
+
+.card-blog {
+    background: var(--card);
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    transition: 0.3s;
+    box-shadow: 0 10px 25px var(--shadow);
+}
+
+.card-blog:hover {
+    transform: translateY(-10px);
+}
+
+.image {
+    height: 220px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+}
+
+.content {
+    padding: 30px;
+}
+
+.date {
+    color: #8ba0ff;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.content h2 {
+    color: var(--text);
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+.content p {
+    color: var(--subtext);
+    line-height: 1.8;
+    margin-bottom: 20px;
+}
+
+/* ============================================
+   CONTACTO (PÁGINA 3)
+   ============================================ */
+
+.hero-contacto {
+    padding: 120px 8% 80px;
+}
+
+.hero-contacto .hero-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: center;
+}
+
+.left h1 {
+    color: var(--text);
+    font-size: 60px;
+    margin-bottom: 25px;
+}
+
+.left p {
+    color: var(--subtext);
+    line-height: 1.9;
+    margin-bottom: 20px;
+}
+
+.info {
+    margin-top: 40px;
+}
+
+.info-box {
+    background: var(--card);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border);
+    box-shadow: 0 8px 20px var(--shadow);
+}
+
+.info-box h3 {
+    color: var(--text);
+    margin-bottom: 10px;
+}
+
+.info-box p {
+    color: var(--subtext);
+}
+
+.form-card {
+    background: var(--card);
+    padding: 40px;
+    border-radius: 25px;
+    border: 1px solid var(--border);
+    box-shadow: 0 10px 25px var(--shadow);
+}
+
+.form-card h2 {
+    color: var(--text);
+    margin-bottom: 25px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text);
+}
+
+.input-group input,
+.input-group textarea {
+    width: 100%;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: var(--input);
+    color: var(--text);
+    outline: none;
+    resize: none;
+}
+
+.input-group textarea {
+    min-height: 140px;
+}
+
+/* ============================================
+   LOGIN (PÁGINA 4)
+   ============================================ */
+
+.login-body {
+    background: var(--bg);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.4s;
+    padding: 20px;
+    margin: 0;
+}
+
+.container-login {
+    width: 760px;
+    background: var(--card);
+    border-radius: 20px;
+    padding: 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+    box-shadow: 0 10px 30px var(--shadow);
+    position: relative;
+    transition: 0.4s;
+}
+
+.left-login {
+    width: 48%;
+}
+
+.logo-title-login {
+    font-size: 48px;
+    font-weight: bold;
+    background: linear-gradient(90deg, #ff74d4, #9d7bff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 10px;
+}
+
+.subtitle-login {
+    color: var(--subtext);
+    margin-bottom: 40px;
+    font-size: 15px;
+}
+
+.input-box-login {
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+.input-box-login label {
+    color: var(--text);
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.input-box-login input {
+    width: 100%;
+    height: 48px;
+    border-radius: 10px;
+    border: 2px solid var(--border);
+    background: var(--input);
+    outline: none;
+    color: var(--text);
+    padding: 0 15px;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+.input-box-login input:focus {
+    border-color: #7d9dff;
+    box-shadow: 0 0 10px rgba(125, 157, 255, 0.5);
+}
+
+.forgot-login {
+    color: var(--secondary);
+    text-decoration: none;
+    font-size: 14px;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.forgot-login:hover {
+    text-decoration: underline;
+}
+
+.btn-login {
+    background: var(--gradient);
+    color: white;
+}
+
+.btn-register {
+    background: transparent;
+    border: 2px solid var(--secondary);
+    color: var(--text);
+}
+
+.btn-register:hover {
+    background: var(--secondary);
+    color: white;
+}
+
+.right-login {
+    width: 48%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-box-login {
+    width: 100%;
+    height: 250px;
+    background: #0a0a2a;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+body.light .logo-box-login {
+    background: linear-gradient(135deg, #6c3dff, #2f80ff);
+}
+
+.mountain-login {
+    width: 90px;
+    height: 90px;
+    border-left: 6px solid white;
+    border-top: 6px solid white;
+    transform: rotate(45deg);
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.mountain-login::after {
+    content: "";
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-left: 6px solid white;
+    border-top: 6px solid white;
+    top: 18px;
+    left: 35px;
+}
+
+.logo-text-login {
+    font-size: 42px;
+    letter-spacing: 4px;
+    font-weight: bold;
+}
+
+.business-login {
+    margin-top: 8px;
+    letter-spacing: 8px;
+    font-size: 14px;
+}
+
+.theme-toggle-login {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+/* ============================================
+   FOOTER (COMÚN)
+   ============================================ */
+
+footer {
+    padding: 30px;
+    text-align: center;
+    color: var(--subtext);
+}
+
+/* ============================================
+   RESPONSIVE (COMÚN)
+   ============================================ */
+
+@media (max-width: 950px) {
+    .hero-quienes .hero-content,
+    .hero-contacto .hero-content {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-text h1,
+    .left h1 {
+        font-size: 45px;
+    }
+
+    .navbar {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .header-blog h1 {
+        font-size: 42px;
+    }
+
+    .hero-contacto {
+        padding-top: 180px;
+    }
+}
+
+/* Responsive Login */
+@media (max-width: 850px) {
+    .container-login {
+        flex-direction: column;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .left-login,
+    .right-login {
+        width: 100%;
+    }
+
+    .logo-box-login {
+        height: 220px;
+    }
+
+    .logo-title-login {
+        font-size: 40px;
+    }
+}
+/* ============================================
+   LOGO MEJORADO
+   ============================================ */
+
+.logo {
+    font-size: 32px;
+    font-weight: bold;
+    background: linear-gradient(135deg, #ff74d4, #9d7bff, #7b4dff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+}
+
+/* Efecto hover en el logo */
+.logo:hover {
+    background: linear-gradient(135deg, #ff8ee0, #b89dff, #9b6dff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transform: scale(1.02);
+}
+
+/* Para tema claro */
+body.light .logo {
+    background: linear-gradient(135deg, #e649c2, #8b5dff, #5a2dcc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Alternativa si el gradient falla (fallback) */
+.logo {
+    color: var(--primary);  /* Color sólido como respaldo */
+}
+
+@supports (background-clip: text) {
+    .logo {
+        color: transparent;  /* Solo si soporta gradient en texto */
+    }
+}
