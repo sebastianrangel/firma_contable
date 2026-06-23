@@ -1,919 +1,1061 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>ELOHANU BUSINESS</title>
-
-<!-- ICONOS -->
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-<style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
-}
-
-:root{
-
-    --bg-left:#000000;
-    --bg-right:#140b08;
-
-    --card:#111111;
-    --text:#ffffff;
-    --subtext:#9f9f9f;
-
-    --border:#3b2b25;
-
-    --button-hover:#1f1f1f;
-
-    --input:#3c3c3c;
-
-    --primary:#0d6efd;
-
-    --shadow:rgba(0,0,0,0.4);
-}
-
-body.light{
-
-    --bg-left:#f0f2ff;
-    --bg-right:#ffffff;
-
-    --card:#ffffff;
-    --text:#121212;
-    --subtext:#555555;
-
-    --border:#c8c8c8;
-
-    --button-hover:#ececec;
-
-    --input:#f2f2f2;
-
-    --primary:#0d6efd;
-
-    --shadow:rgba(0,0,0,0.15);
-}
-
-body{
-
-    height:100vh;
-    overflow:hidden;
-    transition:0.4s;
-}
-
-/* NAVBAR */
-
-.navbar{
-
-    position:fixed;
-
-    top:0;
-    left:0;
-
-    width:100%;
-
-    padding:18px 50px;
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    z-index:200;
-
-    background:rgba(0,0,0,0.25);
-
-    backdrop-filter:blur(10px);
-
-    border-bottom:1px solid rgba(255,255,255,0.08);
-}
-
-body.light .navbar{
-
-    background:rgba(255,255,255,0.7);
-
-    border-bottom:1px solid rgba(0,0,0,0.08);
-}
-
-.nav-logo{
-
-    font-size:30px;
-    font-weight:bold;
-
-    background:linear-gradient(90deg,#ff74d4,#8b7dff);
-
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-
-    letter-spacing:2px;
-}
-
-.nav-links{
-
-    display:flex;
-    align-items:center;
-    gap:30px;
-
-    list-style:none;
-}
-
-.nav-links li a{
-
-    color:var(--text);
-
-    text-decoration:none;
-
-    font-size:15px;
-
-    position:relative;
-
-    transition:0.3s;
-}
-
-.nav-links li a:hover{
-
-    color:#7da1ff;
-}
-
-.nav-links li a::after{
-
-    content:"";
-
-    position:absolute;
-
-    left:0;
-    bottom:-6px;
-
-    width:0%;
-    height:2px;
-
-    background:#7da1ff;
-
-    transition:0.3s;
-}
-
-.nav-links li a:hover::after{
-
-    width:100%;
-}
-
-/* BOTON TEMA */
-
-.theme-toggle{
-
-    position:relative;
-}
-
-.switch{
-
-    width:65px;
-    height:32px;
-
-    background:#444;
-
-    border-radius:30px;
-
-    position:relative;
-
-    cursor:pointer;
-
-    transition:0.3s;
-}
-
-.switch::before{
-
-    content:"";
-
-    width:24px;
-    height:24px;
-
-    background:white;
-
-    border-radius:50%;
-
-    position:absolute;
-
-    top:4px;
-    left:5px;
-
-    transition:0.3s;
-}
-
-body.light .switch{
-
-    background:#7da1ff;
-}
-
-body.light .switch::before{
-
-    left:36px;
-}
-
-/* CONTAINER */
-
-.container{
-
-    display:flex;
-    height:100vh;
-}
-
-/* IZQUIERDA */
-
-.left{
-
-    width:50%;
-    background:var(--bg-left);
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
-
-    position:relative;
-    transition:0.4s;
-}
-
-.logo{
-
-    text-align:center;
-    color:white;
-}
-
-body.light .logo{
-    color:#111;
-}
-
-.mountain{
-
-    width:90px;
-    height:90px;
-
-    border-left:6px solid currentColor;
-    border-top:6px solid currentColor;
-
-    transform:rotate(45deg);
-
-    margin:0 auto 25px auto;
-
-    position:relative;
-}
-
-.mountain::after{
-
-    content:"";
-
-    position:absolute;
-
-    width:40px;
-    height:40px;
-
-    border-left:6px solid currentColor;
-    border-top:6px solid currentColor;
-
-    top:18px;
-    left:35px;
-}
-
-.logo h1{
-
-    font-size:70px;
-    letter-spacing:8px;
-    margin-bottom:10px;
-}
-
-.logo p{
-
-    letter-spacing:12px;
-    color:var(--subtext);
-    margin-bottom:40px;
-}
-
-.logo h2{
-
-    font-size:50px;
-    letter-spacing:5px;
-}
-
-.slogan{
-
-    margin-top:20px;
-    color:var(--subtext);
-    font-size:13px;
-}
-
-/* DERECHA */
-
-.right{
-
-    width:50%;
-    background:var(--bg-right);
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    position:relative;
-    transition:0.4s;
-}
-
-.menu{
-
-    width:320px;
-}
-
-.menu button{
-
-    width:100%;
-    height:50px;
-
-    margin-bottom:10px;
-
-    background:transparent;
-
-    border:1px solid var(--border);
-
-    color:var(--subtext);
-
-    cursor:pointer;
-
-    transition:0.3s;
-
-    font-size:15px;
-}
-
-.menu button:hover{
-
-    background:var(--button-hover);
-    color:var(--text);
-}
-
-/* SUBMENUS */
-
-.submenu{
-
-    max-height:0;
-    overflow:hidden;
-    transition:0.4s ease;
-
-    margin-bottom:15px;
-}
-
-.submenu.active{
-
-    max-height:300px;
-}
-
-.submenu div{
-
-    padding:12px;
-    border:1px solid var(--border);
-    color:var(--subtext);
-    margin-top:5px;
-    background:rgba(255,255,255,0.02);
-    transition:0.3s;
-}
-
-.submenu div:hover{
-
-    background:var(--button-hover);
-    color:var(--text);
-}
-
-/* REDES */
-
-.social{
-
-    display:flex;
-    justify-content:center;
-    gap:18px;
-
-    margin-top:35px;
-}
-
-.social a{
-
-    width:45px;
-    height:45px;
-
-    border-radius:50%;
-
-    border:1px solid var(--border);
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    color:white;
-
-    text-decoration:none;
-
-    font-size:18px;
-
-    background:rgba(255,255,255,0.03);
-
-    transition:0.3s;
-}
-
-body.light .social a{
-
-    color:#111;
-}
-
-.social a:hover{
-
-    transform:translateY(-5px) scale(1.08);
-
-    background:linear-gradient(135deg,#7b4dff,#2f80ff);
-
-    color:white;
-
-    box-shadow:0 8px 20px rgba(0,0,0,0.3);
-}
-
-/* MODAL */
-
-.modal{
-
-    position:fixed;
-
-    top:50%;
-    left:50%;
-
-    transform:translate(-50%,-50%);
-
-    width:320px;
-
-    background:var(--card);
-
-    padding:25px;
-
-    border-radius:10px;
-
-    box-shadow:0 5px 20px var(--shadow);
-
-    z-index:100;
-
-    transition:0.4s;
-
-    display:none;
-}
-
-.modal.active{
-
-    display:block;
-}
-
-.modal-header{
-
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    margin-bottom:15px;
-
-    cursor:move;
-    user-select:none;
-}
-
-.modal-header h3{
-
-    color:var(--text);
-}
-
-.close{
-
-    color:var(--text);
-    cursor:pointer;
-    font-size:20px;
-}
-
-.close:hover{
-
-    color:var(--primary);
-}
-
-.modal label{
-
-    color:var(--text);
-    font-size:14px;
-}
-
-.modal input{
-
-    width:100%;
-    height:40px;
-
-    margin-top:5px;
-    margin-bottom:15px;
-
-    background:var(--input);
-
-    border:1px solid #666;
-
-    padding:10px;
-
-    color:var(--text);
-}
-
-.modal button{
-
-    width:100%;
-    height:40px;
-
-    background:var(--primary);
-
-    border:none;
-
-    color:white;
-
-    cursor:pointer;
-}
-
-.overlay{
-
-    position:fixed;
-
-    top:0;
-    left:0;
-
-    width:100%;
-    height:100%;
-
-    background:rgba(0,0,0,0.5);
-
-    z-index:99;
-
-    display:none;
-}
-
-.overlay.active{
-
-    display:block;
-}
-
-/* RESPONSIVE */
-
-@media(max-width:1000px){
-
-    body{
-        overflow:auto;
-    }
-
-    .container{
-
-        flex-direction:column;
-    }
-
-    .left,
-    .right{
-
-        width:100%;
-        min-height:50vh;
-    }
-
-    .logo h1{
-
-        font-size:45px;
-    }
-
-    .navbar{
-
-        flex-direction:column;
-        gap:20px;
-
-        padding:20px;
-    }
-
-    .nav-links{
-
-        flex-wrap:wrap;
-        justify-content:center;
-        gap:15px;
-    }
-}
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELOHANU BUSINESS</title>
+
+    <!-- ICONOS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- FUENTE GOOGLE -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-left: #0a0a0f;
+            --bg-right: #12121a;
+            --card: #1a1a2e;
+            --text: #ffffff;
+            --subtext: #a0a0b8;
+            --border: #2a2a3e;
+            --button-hover: #252540;
+            --input: #252540;
+            --primary: #6c5ce7;
+            --primary-light: #a29bfe;
+            --gradient-1: #6c5ce7;
+            --gradient-2: #fd79a8;
+            --shadow: rgba(0, 0, 0, 0.6);
+            --radius: 16px;
+            --transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.light {
+            --bg-left: #f0f2ff;
+            --bg-right: #ffffff;
+            --card: #ffffff;
+            --text: #1a1a2e;
+            --subtext: #6b6b8a;
+            --border: #e0e0f0;
+            --button-hover: #f0f0ff;
+            --input: #f0f2ff;
+            --primary: #6c5ce7;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            transition: var(--transition);
+            background: var(--bg-right);
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-right);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 3px;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 200;
+            background: rgba(10, 10, 15, 0.75);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            transition: var(--transition);
+        }
+
+        body.light .navbar {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        }
+
+        .nav-logo {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+            position: relative;
+        }
+
+        .nav-logo::after {
+            content: '●';
+            -webkit-text-fill-color: var(--primary);
+            font-size: 10px;
+            position: absolute;
+            top: -4px;
+            right: -16px;
+            animation: pulse-dot 2s infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.8); }
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .nav-links li a {
+            color: var(--subtext);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 10px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links li a:hover {
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        body.light .nav-links li a:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-links li a.active {
+            color: var(--primary);
+            background: rgba(108, 92, 231, 0.12);
+        }
+
+        body.light .nav-links li a.active {
+            background: rgba(108, 92, 231, 0.08);
+        }
+
+        /* ===== THEME TOGGLE ===== */
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .switch {
+            width: 52px;
+            height: 28px;
+            background: var(--border);
+            border-radius: 30px;
+            position: relative;
+            cursor: pointer;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+
+        .switch::before {
+            content: "🌙";
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            transition: var(--transition);
+            font-size: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        body.light .switch {
+            background: var(--primary);
+        }
+
+        body.light .switch::before {
+            content: "☀️";
+            left: 27px;
+        }
+
+        /* ===== CONTAINER ===== */
+        .container {
+            display: flex;
+            height: 100vh;
+            padding-top: 72px;
+        }
+
+        /* ===== LEFT PANEL ===== */
+        .left {
+            width: 45%;
+            background: var(--bg-left);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            position: relative;
+            transition: var(--transition);
+            overflow: hidden;
+        }
+
+        .left::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(108, 92, 231, 0.08), transparent 70%);
+            top: -200px;
+            right: -200px;
+            border-radius: 50%;
+        }
+
+        .left::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(253, 121, 168, 0.06), transparent 70%);
+            bottom: -150px;
+            left: -150px;
+            border-radius: 50%;
+        }
+
+        .logo {
+            text-align: center;
+            color: var(--text);
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-icon .shape {
+            position: absolute;
+            border: 3px solid var(--primary);
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+
+        .logo-icon .shape:nth-child(1) {
+            width: 60px;
+            height: 60px;
+            transform: rotate(45deg);
+            border-color: var(--gradient-1);
+        }
+
+        .logo-icon .shape:nth-child(2) {
+            width: 40px;
+            height: 40px;
+            transform: rotate(45deg);
+            border-color: var(--gradient-2);
+        }
+
+        .logo-icon .shape:nth-child(3) {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border-color: var(--primary-light);
+            background: var(--primary);
+        }
+
+        .logo h1 {
+            font-size: 64px;
+            font-weight: 800;
+            letter-spacing: 4px;
+            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 4px;
+        }
+
+        .logo .subtitle {
+            font-size: 18px;
+            font-weight: 300;
+            letter-spacing: 12px;
+            color: var(--subtext);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .logo .brand {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--text);
+            letter-spacing: 6px;
+            margin-top: 4px;
+        }
+
+        .logo .brand span {
+            color: var(--subtext);
+            font-weight: 300;
+        }
+
+        .slogan {
+            margin-top: 24px;
+            color: var(--subtext);
+            font-size: 13px;
+            font-weight: 400;
+            letter-spacing: 2px;
+            padding: 12px 24px;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            display: inline-block;
+        }
+
+        /* ===== RIGHT PANEL ===== */
+        .right {
+            width: 55%;
+            background: var(--bg-right);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            transition: var(--transition);
+            padding: 20px;
+        }
+
+        .right-content {
+            width: 100%;
+            max-width: 420px;
+            position: relative;
+        }
+
+        /* ===== MENU BUTTONS ===== */
+        .menu-btn {
+            width: 100%;
+            height: 54px;
+            margin-bottom: 10px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--subtext);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--gradient-1), var(--gradient-2));
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .menu-btn:hover {
+            background: var(--button-hover);
+            color: var(--text);
+            transform: translateX(4px);
+            border-color: var(--primary);
+        }
+
+        .menu-btn:hover::before {
+            opacity: 1;
+        }
+
+        .menu-btn .icon {
+            font-size: 18px;
+            color: var(--primary);
+            margin-right: 12px;
+        }
+
+        .menu-btn .arrow {
+            font-size: 14px;
+            transition: var(--transition);
+            color: var(--subtext);
+        }
+
+        .menu-btn .arrow.open {
+            transform: rotate(180deg);
+        }
+
+        .menu-btn-primary {
+            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+            color: white;
+            border: none;
+            font-weight: 600;
+        }
+
+        .menu-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(108, 92, 231, 0.3);
+            border-color: transparent;
+        }
+
+        .menu-btn-primary .icon {
+            color: white;
+        }
+
+        /* ===== SUBMENUS ===== */
+        .submenu {
+            max-height: 0;
+            overflow: hidden;
+            transition: var(--transition);
+            margin-bottom: 8px;
+            padding-left: 12px;
+        }
+
+        .submenu.active {
+            max-height: 300px;
+        }
+
+        .submenu-item {
+            padding: 12px 20px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--subtext);
+            margin-top: 6px;
+            background: rgba(255, 255, 255, 0.02);
+            transition: var(--transition);
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .submenu-item:hover {
+            background: var(--button-hover);
+            color: var(--text);
+            border-color: var(--primary);
+            transform: translateX(4px);
+        }
+
+        .submenu-item .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--primary);
+            flex-shrink: 0;
+        }
+
+        /* ===== SOCIAL ===== */
+        .social {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 28px;
+        }
+
+        .social a {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--subtext);
+            text-decoration: none;
+            font-size: 17px;
+            background: var(--card);
+            transition: var(--transition);
+        }
+
+        .social a:hover {
+            transform: translateY(-4px) scale(1.05);
+            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.3);
+        }
+
+        /* ===== MODAL ===== */
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 400px;
+            max-width: 92%;
+            background: var(--card);
+            padding: 32px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px var(--shadow);
+            z-index: 100;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            pointer-events: none;
+            border: 1px solid var(--border);
+        }
+
+        .modal.active {
+            opacity: 1;
+            pointer-events: all;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            cursor: move;
+            user-select: none;
+        }
+
+        .modal-header h3 {
+            color: var(--text);
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .modal-header h3 span {
+            color: var(--primary);
+        }
+
+        .close {
+            color: var(--subtext);
+            cursor: pointer;
+            font-size: 24px;
+            transition: var(--transition);
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            border: none;
+            background: transparent;
+        }
+
+        .close:hover {
+            color: var(--text);
+            background: var(--button-hover);
+            transform: rotate(90deg);
+        }
+
+        .modal label {
+            color: var(--text);
+            font-size: 13px;
+            font-weight: 500;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .modal input {
+            width: 100%;
+            height: 44px;
+            margin-bottom: 16px;
+            background: var(--input);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 0 14px;
+            color: var(--text);
+            font-size: 14px;
+            transition: var(--transition);
+            outline: none;
+        }
+
+        .modal input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15);
+        }
+
+        .modal input::placeholder {
+            color: var(--subtext);
+        }
+
+        .modal-btn {
+            width: 100%;
+            height: 48px;
+            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+            border: none;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: var(--transition);
+            margin-top: 4px;
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(108, 92, 231, 0.3);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 99;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition);
+        }
+
+        .overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .navbar {
+                padding: 14px 24px;
+            }
+
+            .left {
+                width: 40%;
+            }
+
+            .right {
+                width: 60%;
+            }
+
+            .logo h1 {
+                font-size: 48px;
+            }
+        }
+
+        @media (max-width: 820px) {
+            body {
+                overflow: auto;
+            }
+
+            .container {
+                flex-direction: column;
+                height: auto;
+                padding-top: 120px;
+            }
+
+            .left {
+                width: 100%;
+                min-height: 60vh;
+                padding: 40px 20px;
+            }
+
+            .right {
+                width: 100%;
+                min-height: 60vh;
+                padding: 30px 20px;
+            }
+
+            .navbar {
+                flex-direction: column;
+                gap: 12px;
+                padding: 12px 20px;
+            }
+
+            .nav-links {
+                justify-content: center;
+                gap: 4px;
+            }
+
+            .nav-links li a {
+                font-size: 12px;
+                padding: 6px 12px;
+            }
+
+            .logo h1 {
+                font-size: 40px;
+            }
+
+            .logo .subtitle {
+                font-size: 14px;
+                letter-spacing: 8px;
+            }
+
+            .logo .brand {
+                font-size: 22px;
+            }
+
+            .right-content {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar {
+                padding: 10px 16px;
+                gap: 8px;
+            }
+
+            .nav-logo {
+                font-size: 22px;
+            }
+
+            .nav-links li a {
+                font-size: 11px;
+                padding: 4px 10px;
+            }
+
+            .logo h1 {
+                font-size: 32px;
+                letter-spacing: 2px;
+            }
+
+            .logo .subtitle {
+                font-size: 11px;
+                letter-spacing: 6px;
+            }
+
+            .logo .brand {
+                font-size: 18px;
+            }
+
+            .slogan {
+                font-size: 11px;
+                padding: 8px 16px;
+            }
+
+            .menu-btn {
+                height: 46px;
+                font-size: 13px;
+                padding: 0 14px;
+            }
+
+            .modal {
+                padding: 24px 20px;
+            }
+
+            .modal-header h3 {
+                font-size: 17px;
+            }
+
+            .social a {
+                width: 38px;
+                height: 38px;
+                font-size: 14px;
+            }
+
+            .switch {
+                width: 44px;
+                height: 24px;
+            }
+
+            .switch::before {
+                width: 18px;
+                height: 18px;
+                font-size: 10px;
+            }
+
+            body.light .switch::before {
+                left: 23px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .nav-links li a {
+                font-size: 10px;
+                padding: 3px 8px;
+            }
+
+            .logo h1 {
+                font-size: 28px;
+            }
+
+            .menu-btn {
+                font-size: 12px;
+                height: 42px;
+            }
+
+            .submenu-item {
+                font-size: 12px;
+                padding: 10px 14px;
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .left .logo {
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .right-content {
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        /* ===== SCROLLBAR PARA MÓVIL ===== */
+        @media (max-width: 820px) {
+            ::-webkit-scrollbar {
+                width: 4px;
+            }
+        }
+    </style>
 </head>
-
 <body>
 
-<!-- NAVBAR -->
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar">
+        <div class="nav-logo">ELOHANU</div>
+        <ul class="nav-links">
+            <li><a href="ELOHANU_BUSINESS.html">Inicio</a></li>
+            <li><a href="quienes-somos.html">Quiénes Somos</a></li>
+            <li><a href="blog-noticias.html">Blog</a></li>
+            <li><a href="contactanos.html">Contáctanos</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="dashboard.html" class="active">Dashboard</a></li>
+            <li>
+                <div class="theme-toggle">
+                    <div class="switch" id="themeBtn" role="button" aria-label="Cambiar tema"></div>
+                </div>
+            </li>
+        </ul>
+    </nav>
 
-<nav class="navbar">
+    <!-- ===== CONTAINER ===== -->
+    <div class="container">
 
-    <div class="nav-logo">
-        ELOHANU
-    </div>
-
-    <ul class="nav-links">
-
-        <li>
-            <a href="ELOHANU_BUSINESS.html">
-                Inicio
-            </a>
-        </li>
-
-        <li>
-            <a href="quienes-somos.html">
-                Quiénes Somos
-            </a>
-        </li>
-
-        <li>
-            <a href="blog-noticias.html">
-                Blog
-            </a>
-        </li>
-
-        <li>
-            <a href="contactanos.html">
-                Contáctanos
-            </a>
-        </li>
-
-        <li>
-            <a href="login.html">
-                Login
-            </a>
-        </li>
-
-         <li>
-            <a href="dashboard.html">
-                Dashboard
-            </a>
-        </li>
-
-        <li>
-            <div class="theme-toggle">
-                <div class="switch" id="themeBtn"></div>
+        <!-- LEFT -->
+        <div class="left">
+            <div class="logo">
+                <div class="logo-icon">
+                    <div class="shape"></div>
+                    <div class="shape"></div>
+                    <div class="shape"></div>
+                </div>
+                <h1>ELOHANU</h1>
+                <div class="subtitle">Business</div>
+                <div class="brand">ELOHANU <span>BUSINESS</span></div>
+                <div class="slogan">✦ CUIDAMOS TUS NÚMEROS, IMPULSAMOS TUS SUEÑOS ✦</div>
             </div>
-        </li>
-
-    </ul>
-
-</nav>
-
-<div class="container">
-
-    <!-- IZQUIERDA -->
-
-    <div class="left">
-
-        <div class="logo">
-
-            <div class="mountain"></div>
-
-            <h1>ELOHANU</h1>
-
-            <p>BUSINESS</p>
-
-            <h2>ELOHANU</h2>
-
-            <p>BUSINESS</p>
-
-            <div class="slogan">
-                CUIDAMOS TUS NÚMEROS, IMPULSAMOS TUS SUEÑOS.
-            </div>
-
         </div>
 
+        <!-- RIGHT -->
+        <div class="right">
+            <div class="overlay" id="overlay"></div>
+
+            <!-- MODAL -->
+            <div class="modal" id="modal">
+                <div class="modal-header" id="modalHeader">
+                    <h3>📅 <span>Agendar</span> cita</h3>
+                    <button class="close" id="closeModal">&times;</button>
+                </div>
+                <label>Nombre completo</label>
+                <input type="text" placeholder="Tu nombre">
+
+                <label>Teléfono</label>
+                <input type="text" placeholder="Tu teléfono">
+
+                <label>Correo electrónico</label>
+                <input type="email" placeholder="Tu correo">
+
+                <label>Fecha de la cita</label>
+                <input type="date">
+
+                <button class="modal-btn">Agendar cita</button>
+            </div>
+
+            <!-- MENU -->
+            <div class="right-content">
+                <button class="menu-btn menu-btn-primary" onclick="openModal()">
+                    <span><i class="fas fa-calendar-plus icon"></i> Agendar cita</span>
+                    <i class="fas fa-arrow-right" style="font-size:14px;"></i>
+                </button>
+
+                <button class="menu-btn" onclick="toggleMenu('menu2')">
+                    <span><i class="fas fa-file-invoice icon"></i> Impuestos</span>
+                    <i class="fas fa-chevron-down arrow" id="arrow-menu2"></i>
+                </button>
+                <div class="submenu" id="menu2">
+                    <div class="submenu-item"><span class="dot"></span> Declaración de renta</div>
+                    <div class="submenu-item"><span class="dot"></span> IVA</div>
+                    <div class="submenu-item"><span class="dot"></span> Retención</div>
+                </div>
+
+                <button class="menu-btn" onclick="toggleMenu('menu3')">
+                    <span><i class="fas fa-search icon"></i> Auditoría</span>
+                    <i class="fas fa-chevron-down arrow" id="arrow-menu3"></i>
+                </button>
+                <div class="submenu" id="menu3">
+                    <div class="submenu-item"><span class="dot"></span> Auditoría Interna</div>
+                    <div class="submenu-item"><span class="dot"></span> Control Financiero</div>
+                    <div class="submenu-item"><span class="dot"></span> Revisión Fiscal</div>
+                </div>
+
+                <button class="menu-btn" onclick="toggleMenu('menu4')">
+                    <span><i class="fas fa-chart-line icon"></i> Consultoría Financiera</span>
+                    <i class="fas fa-chevron-down arrow" id="arrow-menu4"></i>
+                </button>
+                <div class="submenu" id="menu4">
+                    <div class="submenu-item"><span class="dot"></span> Planeación Financiera</div>
+                    <div class="submenu-item"><span class="dot"></span> Asesoría Empresarial</div>
+                    <div class="submenu-item"><span class="dot"></span> Inversiones</div>
+                </div>
+
+                <button class="menu-btn" onclick="toggleMenu('menu5')">
+                    <span><i class="fas fa-users icon"></i> Gestión Laboral</span>
+                    <i class="fas fa-chevron-down arrow" id="arrow-menu5"></i>
+                </button>
+                <div class="submenu" id="menu5">
+                    <div class="submenu-item"><span class="dot"></span> Nómina</div>
+                    <div class="submenu-item"><span class="dot"></span> Contratación</div>
+                    <div class="submenu-item"><span class="dot"></span> Seguridad Social</div>
+                </div>
+
+                <button class="menu-btn" onclick="toggleMenu('menu6')">
+                    <span><i class="fas fa-coins icon"></i> Análisis y Control de Costos</span>
+                    <i class="fas fa-chevron-down arrow" id="arrow-menu6"></i>
+                </button>
+                <div class="submenu" id="menu6">
+                    <div class="submenu-item"><span class="dot"></span> Costos Operativos</div>
+                    <div class="submenu-item"><span class="dot"></span> Presupuestos</div>
+                    <div class="submenu-item"><span class="dot"></span> Optimización Financiera</div>
+                </div>
+
+                <!-- SOCIAL -->
+                <div class="social">
+                    <a href="https://facebook.com" target="_blank" aria-label="Facebook">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <a href="https://instagram.com" target="_blank" aria-label="Instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a href="https://x.com" target="_blank" aria-label="Twitter X">
+                        <i class="fa-brands fa-x-twitter"></i>
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" aria-label="LinkedIn">
+                        <i class="fa-brands fa-linkedin-in"></i>
+                    </a>
+                    <a href="https://youtube.com" target="_blank" aria-label="YouTube">
+                        <i class="fa-brands fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- DERECHA -->
-
-    <div class="right">
-
-        <div class="overlay" id="overlay"></div>
-
-        <!-- MODAL -->
-
-        <div class="modal" id="modal">
-
-            <div class="modal-header" id="modalHeader">
-
-                <h3>Agendar una cita</h3>
-
-                <span class="close" id="closeModal">&times;</span>
-
-            </div>
-
-            <label>Nombre:</label>
-            <input type="text" placeholder="Tu nombre">
-
-            <label>Teléfono:</label>
-            <input type="text" placeholder="Tu teléfono">
-
-            <label>Correo:</label>
-            <input type="email" placeholder="Tu correo electrónico">
-
-            <label>Fecha de la cita:</label>
-            <input type="date">
-
-            <button>Insertar</button>
-
-        </div>
-
-        <!-- MENU -->
-
-        <div class="menu">
-
-            <button onclick="openModal()">
-                Agendar cita
-            </button>
-
-            <button onclick="toggleMenu('menu2')">
-                Impuestos
-            </button>
-
-            <div class="submenu" id="menu2">
-
-                <div>Declaración de renta</div>
-                <div>IVA</div>
-                <div>Retención</div>
-
-            </div>
-
-            <button onclick="toggleMenu('menu3')">
-                Auditoría
-            </button>
-
-            <div class="submenu" id="menu3">
-
-                <div>Auditoría Interna</div>
-                <div>Control Financiero</div>
-                <div>Revisión Fiscal</div>
-
-            </div>
-
-            <button onclick="toggleMenu('menu4')">
-                Consultoría Financiera
-            </button>
-
-            <div class="submenu" id="menu4">
-
-                <div>Planeación Financiera</div>
-                <div>Asesoría Empresarial</div>
-                <div>Inversiones</div>
-
-            </div>
-
-            <button onclick="toggleMenu('menu5')">
-                Gestión Laboral
-            </button>
-
-            <div class="submenu" id="menu5">
-
-                <div>Nómina</div>
-                <div>Contratación</div>
-                <div>Seguridad Social</div>
-
-            </div>
-
-            <button onclick="toggleMenu('menu6')">
-                Análisis y Control de Costos
-            </button>
-
-            <div class="submenu" id="menu6">
-
-                <div>Costos Operativos</div>
-                <div>Presupuestos</div>
-                <div>Optimización Financiera</div>
-
-            </div>
-
-            <!-- REDES -->
-
-            <div class="social">
-
-                <a href="https://facebook.com" target="_blank">
-                    <i class="fa-brands fa-facebook-f"></i>
-                </a>
-
-                <a href="https://instagram.com" target="_blank">
-                    <i class="fa-brands fa-instagram"></i>
-                </a>
-
-                <a href="https://x.com" target="_blank">
-                    <i class="fa-brands fa-x-twitter"></i>
-                </a>
-
-                <a href="https://linkedin.com" target="_blank">
-                    <i class="fa-brands fa-linkedin-in"></i>
-                </a>
-
-                <a href="https://youtube.com" target="_blank">
-                    <i class="fa-brands fa-youtube"></i>
-                </a>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-<script>
-
-/* CAMBIO TEMA */
-
-const themeBtn = document.getElementById("themeBtn");
-
-themeBtn.addEventListener("click", ()=>{
-
-    document.body.classList.toggle("light");
-
-});
-
-/* MENUS */
-
-function toggleMenu(id){
-
-    const menu = document.getElementById(id);
-
-    menu.classList.toggle("active");
-}
-
-/* MODAL */
-
-const modal = document.getElementById("modal");
-const overlay = document.getElementById("overlay");
-const closeModal = document.getElementById("closeModal");
-
-function openModal(){
-
-    modal.classList.add("active");
-    overlay.classList.add("active");
-}
-
-function closeModalFunction(){
-
-    modal.classList.remove("active");
-    overlay.classList.remove("active");
-}
-
-closeModal.addEventListener("click", closeModalFunction);
-
-overlay.addEventListener("click", closeModalFunction);
-
-/* MODAL DRAG */
-
-const modalHeader = document.getElementById("modalHeader");
-
-let isDragging = false;
-let offsetX, offsetY;
-
-modalHeader.addEventListener("mousedown", (e) => {
-
-    isDragging = true;
-
-    const rect = modal.getBoundingClientRect();
-
-    offsetX = e.clientX - rect.left;
-    offsetY = e.clientY - rect.top;
-
-    modal.style.transition = "none";
-
-    e.preventDefault();
-});
-
-document.addEventListener("mousemove", (e) => {
-
-    if (!isDragging) return;
-
-    const x = e.clientX - offsetX;
-    const y = e.clientY - offsetY;
-
-    modal.style.left = x + "px";
-    modal.style.top = y + "px";
-    modal.style.transform = "none";
-});
-
-document.addEventListener("mouseup", () => {
-
-    if (isDragging) {
-
-        isDragging = false;
-        modal.style.transition = "0.4s";
-    }
-});
-
-/* ESC */
-
-document.addEventListener("keydown", (e) => {
-
-    if (e.key === "Escape") {
-
-        closeModalFunction();
-    }
-});
-
-</script>
-
+    <script>
+        // ===== TEMA =====
+        const themeBtn = document.getElementById("themeBtn");
+
+        themeBtn.addEventListener("click", () => {
+            document.body.classList.toggle("light");
+            // Guardar preferencia
+            localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark');
+        });
+
+        // Cargar tema guardado
+        if (localStorage.getItem('theme') === 'light') {
+            document.body.classList.add('light');
+        }
+
+        // ===== MENÚS =====
+        function toggleMenu(id) {
+            const menu = document.getElementById(id);
+            const arrow = document.getElementById(`arrow-${id}`);
+            menu.classList.toggle("active");
+
+            if (arrow) {
+                arrow.classList.toggle("open");
+            }
+        }
+
+        // ===== MODAL =====
+        const modal = document.getElementById("modal");
+        const overlay = document.getElementById("overlay");
+        const closeModalBtn = document.getElementById("closeModal");
+
+        function openModal() {
+            modal.classList.add("active");
+            overlay.classList.add("active");
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeModalFunction() {
+            modal.classList.remove("active");
+            overlay.classList.remove("active");
+            document.body.style.overflow = "";
+        }
+
+        closeModalBtn.addEventListener("click", closeModalFunction);
+        overlay.addEventListener("click", closeModalFunction);
+
+        // Cerrar con ESC
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") closeModalFunction();
+        });
+
+        // ===== MODAL DRAG =====
+        const modalHeader = document.getElementById("modalHeader");
+        let isDragging = false;
+        let offsetX, offsetY;
+
+        modalHeader.addEventListener("mousedown", (e) => {
+            if (e.target.closest('.close')) return;
+            isDragging = true;
+            const rect = modal.getBoundingClientRect();
+            offsetX = e.clientX - rect.left;
+            offsetY = e.clientY - rect.top;
+            modal.style.transition = "none";
+            e.preventDefault();
+        });
+
+        document.addEventListener("mousemove", (e) => {
+            if (!isDragging) return;
+            const x = e.clientX - offsetX;
+            const y = e.clientY - offsetY;
+            modal.style.left = x + "px";
+            modal.style.top = y + "px";
+            modal.style.transform = "none";
+        });
+
+        document.addEventListener("mouseup", () => {
+            if (isDragging) {
+                isDragging = false;
+                modal.style.transition = "0.3s cubic-bezier(0.4, 0, 0.2, 1)";
+            }
+        });
+
+        // ===== CERRAR MODAL CON CLICK FUERA (desde overlay ya está) =====
+    </script>
 </body>
 </html>

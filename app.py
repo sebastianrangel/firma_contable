@@ -6,31 +6,47 @@ import sys
 import redis
 import json
 from functools import wraps
-import os  # ← Agrega esta importación
+import os
+from dotenv import load_dotenv
+
+# Cargar variables de entorno desde .env
+load_dotenv()
 
 app = Flask(__name__)
+
+# ============ CONFIGURACIÓN DESDE VARIABLES DE ENTORNO ============
+DB_CONFIG = {
+    'user': os.getenv('DB_USER', 'postgres'),
+    'host': os.getenv('DB_HOST', 'localhost'),
+    'database': os.getenv('DB_NAME', 'firma_contable'),
+    'password': os.getenv('DB_PASSWORD', 'Alopro123'),
+    'port': int(os.getenv('DB_PORT', 5432)),
+    'client_encoding': 'UTF8'  # ✅ AÑADIDO: Forzar codificación UTF-8
+}
+
+PORT = int(os.getenv('PORT', 3000))
+
+print("=" * 60)
+print("📋 CONFIGURACIÓN CARGADA:")
+print(f"   Base de datos: {DB_CONFIG['database']} en {DB_CONFIG['host']}:{DB_CONFIG['port']}")
+print(f"   Usuario: {DB_CONFIG['user']}")
+print(f"   Codificación: {DB_CONFIG.get('client_encoding', 'UTF8')}")
+print(f"   Puerto servidor: {PORT}")
+print("=" * 60)
 
 # ============ SIRVE ARCHIVOS ESTÁTICOS ============
 @app.route('/styles.css')
 def serve_css():
     return send_from_directory('.', 'styles.css')
 
-# O si quieres servir más archivos:
-@app.route('/<path:filename>')
-def serve_static(filename):
-    if os.path.exists(filename) and filename.endswith(('.css', '.js', '.png', '.jpg', '.ico')):
-        return send_from_directory('.', filename)
-    return "Archivo no encontrado", 404
 # ============ CONFIGURACIÓN DE CACHÉ CON REDIS ============
-# Configuración de TTL (Time To Live) en segundos
 CACHE_CONFIG = {
-    'servicios': 3600,      # 1 hora - cambian poco
-    'estadisticas': 60,     # 1 minuto - actualización frecuente
-    'citas_recientes': 30,  # 30 segundos - datos en tiempo real
-    'clientes': 600,        # 10 minutos - cambios moderados
+    'servicios': 3600,
+    'estadisticas': 60,
+    'citas_recientes': 30,
+    'clientes': 600,
 }
 
-# Configurar conexión a Redis
 try:
     redis_client = redis.Redis(
         host='localhost',
@@ -38,54 +54,37 @@ try:
         decode_responses=True,
         db=0
     )
-    # Probar conexión
     redis_client.ping()
     print("✅ Conectado a Redis")
-    print(f"📊 Configuración de caché cargada:")
-    for key, ttl in CACHE_CONFIG.items():
-        print(f"   - {key}: {ttl} segundos ({ttl//60} minutos)")
 except Exception as e:
     print(f"⚠️ Redis no disponible: {e}")
-    print("   El caché funcionará sin Redis")
     redis_client = None
 
-# Decorador para cachear respuestas de API con diferentes TTL
 def cache_response(cache_type='default'):
-    """
-    Decorador para cachear respuestas de API
-    cache_type: 'servicios', 'estadisticas', 'citas_recientes', 'clientes'
-    """
     def decorator(func):
         @wraps(func)
         def wrapper(*args, **kwargs):
-            # Si Redis no está disponible, ejecutar sin caché
             if redis_client is None:
                 return func(*args, **kwargs)
             
-            # Obtener TTL según el tipo de caché
             ttl = CACHE_CONFIG.get(cache_type, 60)
-            
-            # Crear clave única basada en la función, ruta y parámetros
             cache_key = f"{cache_type}:{func.__name__}:{request.path}:{request.args}"
             
             try:
-                # Intentar obtener del caché
                 cached_data = redis_client.get(cache_key)
                 if cached_data:
-                    print(f"✅ [CACHÉ] {cache_type.upper()} - Respuesta desde caché (TTL: {ttl}s)")
+                    print(f"✅ [CACHÉ] {cache_type.upper()} - Respuesta desde caché")
                     return json.loads(cached_data)
             except Exception as e:
                 print(f"⚠️ Error leyendo caché: {e}")
             
-            # Si no está en caché, ejecutar la función
             result = func(*args, **kwargs)
             
-            # Solo guardar en caché si la respuesta es exitosa
             if result and hasattr(result, 'status_code') and result.status_code == 200:
                 try:
                     response_data = result.get_data(as_text=True)
                     redis_client.setex(cache_key, ttl, response_data)
-                    print(f"💾 [CACHÉ] {cache_type.upper()} - Guardado en caché (TTL: {ttl}s)")
+                    print(f"💾 [CACHÉ] {cache_type.upper()} - Guardado en caché")
                 except Exception as e:
                     print(f"⚠️ Error guardando en caché: {e}")
             
@@ -94,34 +93,26 @@ def cache_response(cache_type='default'):
     return decorator
 
 def limpiar_cache_por_tipo(cache_type=None):
-    """Limpia caché de un tipo específico o todo si es None"""
     if redis_client is None:
         return
     
     if cache_type:
-        # Limpiar solo las claves de un tipo específico
         pattern = f"{cache_type}:*"
         keys = redis_client.keys(pattern)
         if keys:
             redis_client.delete(*keys)
-            print(f"🗑️ [CACHÉ] Limpiado caché de tipo: {cache_type} ({len(keys)} entradas)")
+            print(f"🗑️ [CACHÉ] Limpiado caché de tipo: {cache_type}")
     else:
-        # Limpiar todo el caché
         redis_client.flushall()
         print("🗑️ [CACHÉ] Caché completamente limpiado")
 
 # ============ CONFIGURACIÓN DE LA BASE DE DATOS ============
-DB_CONFIG = {
-    'user': 'postgres',
-    'host': 'localhost',
-    'database': 'firma_contable',
-    'password': '60447744',  # Cambia por tu contraseña real
-    'port': 5432
-}
-
 def get_db_connection():
     try:
+        # ✅ CONEXIÓN CON CODIFICACIÓN UTF-8
         conn = psycopg2.connect(**DB_CONFIG)
+        # Establecer la codificación explícitamente
+        conn.set_client_encoding('UTF8')
         return conn
     except Exception as e:
         print(f"❌ Error conectando a PostgreSQL: {e}")
@@ -136,10 +127,8 @@ def after_request(response):
     return response
 
 # ============ RUTAS DE PÁGINAS HTML ============
-
 @app.route('/')
 def pagina_inicio():
-    """Página de inicio"""
     try:
         return render_template('ELOHANU_BUSINESS.html')
     except Exception as e:
@@ -147,7 +136,6 @@ def pagina_inicio():
 
 @app.route('/quienes-somos')
 def pagina_quienes_somos():
-    """Página Quiénes Somos"""
     try:
         return render_template('quienes-somos.html')
     except Exception as e:
@@ -155,7 +143,6 @@ def pagina_quienes_somos():
 
 @app.route('/blog-noticias')
 def pagina_blog():
-    """Página Blog"""
     try:
         return render_template('blog-noticias.html')
     except Exception as e:
@@ -163,7 +150,6 @@ def pagina_blog():
 
 @app.route('/contactanos')
 def pagina_contactanos():
-    """Página de contacto"""
     try:
         return render_template('contactanos.html')
     except Exception as e:
@@ -171,7 +157,6 @@ def pagina_contactanos():
 
 @app.route('/dashboard')
 def pagina_dashboard():
-    """Dashboard de administración"""
     try:
         return render_template('dashboard.html')
     except Exception as e:
@@ -179,17 +164,40 @@ def pagina_dashboard():
 
 @app.route('/login')
 def pagina_login():
-    """Página de login"""
     try:
         return render_template('login.html')
     except Exception as e:
         return f"Error: No se encontró login.html - {e}"
 
+# ============ RUTAS CON EXTENSIÓN .HTML ============
+@app.route('/ELOHANU_BUSINESS.html')
+def pagina_inicio_html():
+    return render_template('ELOHANU_BUSINESS.html')
+
+@app.route('/quienes-somos.html')
+def pagina_quienes_somos_html():
+    return render_template('quienes-somos.html')
+
+@app.route('/blog-noticias.html')
+def pagina_blog_html():
+    return render_template('blog-noticias.html')
+
+@app.route('/contactanos.html')
+def pagina_contactanos_html():
+    return render_template('contactanos.html')
+
+@app.route('/dashboard.html')
+def pagina_dashboard_html():
+    return render_template('dashboard.html')
+
+@app.route('/login.html')
+def pagina_login_html():
+    return render_template('login.html')
+
 # ============ ENDPOINTS DE LA API ============
 
 @app.route('/api/contacto', methods=['POST', 'OPTIONS'])
 def guardar_contacto():
-    # Limpiar caché de tipos afectados
     limpiar_cache_por_tipo('citas_recientes')
     limpiar_cache_por_tipo('estadisticas')
     
@@ -198,15 +206,10 @@ def guardar_contacto():
     
     try:
         print("📩 Recibida petición POST /api/contacto")
-        
         data = request.json
-        print(f"Datos recibidos: {data}")
         
         if not data:
-            return jsonify({
-                'success': False,
-                'message': 'No se recibieron datos'
-            }), 400
+            return jsonify({'success': False, 'message': 'No se recibieron datos'}), 400
         
         nombre = data.get('nombre', '').strip()
         apellido = data.get('apellido', '').strip()
@@ -219,28 +222,18 @@ def guardar_contacto():
         hora = data.get('hora')
         
         if not all([nombre, apellido, email, telefono, ciudad]):
-            return jsonify({
-                'success': False,
-                'message': 'Todos los campos obligatorios (*) deben ser completados'
-            }), 400
+            return jsonify({'success': False, 'message': 'Todos los campos obligatorios (*) deben ser completados'}), 400
         
         if '@' not in email or '.' not in email:
-            return jsonify({
-                'success': False,
-                'message': 'Por favor ingresa un correo electrónico válido'
-            }), 400
+            return jsonify({'success': False, 'message': 'Por favor ingresa un correo electrónico válido'}), 400
         
         conn = get_db_connection()
         if not conn:
-            return jsonify({
-                'success': False,
-                'message': 'Error de conexión a la base de datos'
-            }), 500
+            return jsonify({'success': False, 'message': 'Error de conexión a la base de datos'}), 500
         
         cur = conn.cursor()
         
         try:
-            # Verificar si el cliente existe
             cur.execute("SELECT id_cliente FROM clientes WHERE email = %s", (email,))
             cliente_existente = cur.fetchone()
             
@@ -262,7 +255,6 @@ def guardar_contacto():
                 cliente_id = cur.fetchone()[0]
                 print(f"✅ Nuevo cliente creado - ID: {cliente_id}")
             
-            # Obtener id_servicio si existe
             id_servicio = None
             if servicio:
                 cur.execute("SELECT id_servicio FROM servicios WHERE nombre = %s", (servicio,))
@@ -270,7 +262,6 @@ def guardar_contacto():
                 if resultado:
                     id_servicio = resultado[0]
             
-            # Insertar la cita
             cur.execute("""
                 INSERT INTO citas (id_cliente, fecha, hora, estado, id_servicio)
                 VALUES (%s, %s, %s, %s, %s)
@@ -292,20 +283,14 @@ def guardar_contacto():
         except psycopg2.Error as e:
             conn.rollback()
             print(f"❌ Error de PostgreSQL: {e}")
-            return jsonify({
-                'success': False,
-                'message': f'Error al guardar: {str(e)}'
-            }), 500
+            return jsonify({'success': False, 'message': f'Error al guardar: {str(e)}'}), 500
         finally:
             cur.close()
             conn.close()
         
     except Exception as e:
         print(f"❌ Error general: {e}")
-        return jsonify({
-            'success': False,
-            'message': f'Error interno: {str(e)}'
-        }), 500
+        return jsonify({'success': False, 'message': f'Error interno: {str(e)}'}), 500
 
 @app.route('/api/citas', methods=['GET'])
 @cache_response(cache_type='citas_recientes')
@@ -315,7 +300,7 @@ def obtener_todas_citas():
         
         conn = get_db_connection()
         if not conn:
-            return jsonify({'error': 'Error de conexión'}), 500
+            return jsonify({'error': 'Error de conexión a la base de datos'}), 500
         
         cur = conn.cursor(cursor_factory=RealDictCursor)
         
@@ -340,12 +325,11 @@ def obtener_todas_citas():
         cur.execute(query)
         citas = cur.fetchall()
         
-        # Convertir fechas y horas a string
         for cita in citas:
             if cita.get('fecha'):
                 cita['fecha'] = str(cita['fecha'])
             if cita.get('hora'):
-                cita['hora'] = str(cita['hora'])  # ← Esto arregla el error
+                cita['hora'] = str(cita['hora'])
         
         cur.close()
         conn.close()
@@ -356,7 +340,7 @@ def obtener_todas_citas():
     except Exception as e:
         print(f"❌ Error al obtener citas: {e}")
         return jsonify({'error': str(e)}), 500
-    
+
 @app.route('/api/citas/<int:cita_id>/estado', methods=['PUT'])
 def actualizar_estado_cita(cita_id):
     limpiar_cache_por_tipo('citas_recientes')
@@ -372,7 +356,7 @@ def actualizar_estado_cita(cita_id):
         
         conn = get_db_connection()
         if not conn:
-            return jsonify({'error': 'Error de conexión'}), 500
+            return jsonify({'error': 'Error de conexión a la base de datos'}), 500
         
         cur = conn.cursor()
         
@@ -405,7 +389,7 @@ def obtener_servicios():
         
         conn = get_db_connection()
         if not conn:
-            return jsonify({'error': 'Error de conexión'}), 500
+            return jsonify({'error': 'Error de conexión a la base de datos'}), 500
         
         cur = conn.cursor(cursor_factory=RealDictCursor)
         
@@ -444,7 +428,7 @@ def crear_servicio():
         
         conn = get_db_connection()
         if not conn:
-            return jsonify({'error': 'Error de conexión'}), 500
+            return jsonify({'error': 'Error de conexión a la base de datos'}), 500
         
         cur = conn.cursor()
         
@@ -487,7 +471,7 @@ def actualizar_servicio(servicio_id):
         
         conn = get_db_connection()
         if not conn:
-            return jsonify({'error': 'Error de conexión'}), 500
+            return jsonify({'error': 'Error de conexión a la base de datos'}), 500
         
         cur = conn.cursor()
         
@@ -520,11 +504,10 @@ def eliminar_servicio(servicio_id):
     try:
         conn = get_db_connection()
         if not conn:
-            return jsonify({'error': 'Error de conexión'}), 500
+            return jsonify({'error': 'Error de conexión a la base de datos'}), 500
         
         cur = conn.cursor()
         
-        # Verificar si hay citas usando este servicio
         cur.execute("SELECT COUNT(*) FROM citas WHERE id_servicio = %s", (servicio_id,))
         count = cur.fetchone()[0]
         
@@ -557,7 +540,7 @@ def obtener_estadisticas():
         
         conn = get_db_connection()
         if not conn:
-            return jsonify({'error': 'Error de conexión'}), 500
+            return jsonify({'error': 'Error de conexión a la base de datos'}), 500
         
         cur = conn.cursor(cursor_factory=RealDictCursor)
         
@@ -595,7 +578,7 @@ def obtener_clientes():
         
         conn = get_db_connection()
         if not conn:
-            return jsonify({'error': 'Error de conexión'}), 500
+            return jsonify({'error': 'Error de conexión a la base de datos'}), 500
         
         cur = conn.cursor(cursor_factory=RealDictCursor)
         
@@ -658,11 +641,21 @@ def clear_cache():
 
 @app.route('/api/health', methods=['GET'])
 def health_check():
+    # Intentar conectar a la base de datos para verificar estado
+    db_status = "disconnected"
+    try:
+        conn = get_db_connection()
+        if conn:
+            conn.close()
+            db_status = "connected"
+    except:
+        pass
+    
     return jsonify({
         'status': 'OK',
         'timestamp': str(datetime.now()),
         'server': 'Flask',
-        'database': 'PostgreSQL',
+        'database': db_status,
         'redis': 'connected' if redis_client else 'disconnected'
     }), 200
 
@@ -699,7 +692,17 @@ def home():
                 'GET /api/servicios': 'Ver servicios',
                 'GET /api/stats': 'Ver estadísticas',
                 'GET /api/clientes': 'Ver clientes',
-                'POST /api/contacto': 'Enviar contacto'
+                'POST /api/contacto': 'Enviar contacto',
+                'PUT /api/citas/<id>/estado': 'Actualizar estado de cita',
+                'POST /api/servicios': 'Crear servicio',
+                'PUT /api/servicios/<id>': 'Actualizar servicio',
+                'DELETE /api/servicios/<id>': 'Eliminar servicio'
+            },
+            '🔧 Sistema': {
+                'GET /api/health': 'Estado del sistema',
+                'GET /api/cache-status': 'Estado del caché',
+                'POST /api/clear-cache': 'Limpiar caché',
+                'GET /api/indices-recomendados': 'Índices SQL recomendados'
             }
         }
     }), 200
@@ -708,20 +711,36 @@ if __name__ == '__main__':
     print("=" * 60)
     print("🚀 Iniciando servidor Flask de ELOHANU BUSINESS")
     print("=" * 60)
-    print(f"📡 Servidor corriendo en: http://localhost:3000")
+    print(f"📡 Servidor corriendo en: http://localhost:{PORT}")
     print(f"💾 Estado del caché: {'Redis activo' if redis_client else 'Redis no disponible'}")
     print("=" * 60)
-    print("📍 Páginas disponibles:")
-    print("   http://localhost:3000/              - Inicio")
-    print("   http://localhost:3000/quienes-somos - Quiénes Somos")
-    print("   http://localhost:3000/blog-noticias - Blog")
-    print("   http://localhost:3000/contactanos   - Contáctanos")
-    print("   http://localhost:3000/dashboard     - Dashboard")
-    print("   http://localhost:3000/login         - Login")
+    print("📍 Páginas disponibles (sin .html):")
+    print(f"   http://localhost:{PORT}/              - Inicio")
+    print(f"   http://localhost:{PORT}/quienes-somos - Quiénes Somos")
+    print(f"   http://localhost:{PORT}/blog-noticias - Blog")
+    print(f"   http://localhost:{PORT}/contactanos   - Contáctanos")
+    print(f"   http://localhost:{PORT}/dashboard     - Dashboard")
+    print(f"   http://localhost:{PORT}/login         - Login")
+    print("=" * 60)
+    print("📍 Páginas disponibles (con .html):")
+    print(f"   http://localhost:{PORT}/ELOHANU_BUSINESS.html - Inicio")
+    print(f"   http://localhost:{PORT}/quienes-somos.html    - Quiénes Somos")
+    print(f"   http://localhost:{PORT}/blog-noticias.html    - Blog")
+    print(f"   http://localhost:{PORT}/contactanos.html      - Contáctanos")
+    print(f"   http://localhost:{PORT}/dashboard.html        - Dashboard")
+    print(f"   http://localhost:{PORT}/login.html            - Login")
+    print("=" * 60)
+    print("📊 Endpoints API disponibles:")
+    print(f"   GET  http://localhost:{PORT}/api/citas")
+    print(f"   GET  http://localhost:{PORT}/api/servicios")
+    print(f"   GET  http://localhost:{PORT}/api/stats")
+    print(f"   GET  http://localhost:{PORT}/api/clientes")
+    print(f"   POST http://localhost:{PORT}/api/contacto")
+    print(f"   GET  http://localhost:{PORT}/api/health")
     print("=" * 60)
     
     try:
-        app.run(debug=True, port=3000, host='0.0.0.0')
+        app.run(debug=True, port=PORT, host='0.0.0.0')
     except Exception as e:
         print(f"❌ Error al iniciar el servidor: {e}")
         sys.exit(1)

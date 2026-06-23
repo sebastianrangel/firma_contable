@@ -4,100 +4,754 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contáctanos | ELOHANU BUSINESS</title>
-    <link rel="stylesheet" href="/styles.css">
+
+    <!-- FUENTE GOOGLE -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- ICONOS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0a0a12;
+            --bg-secondary: #11111e;
+            --card: #14141f;
+            --card-hover: #1a1a2e;
+            --text: #ffffff;
+            --text-secondary: #8a8aa8;
+            --text-muted: #5a5a7a;
+            --border: #2a2a3e;
+            --primary: #6c5ce7;
+            --primary-light: #a29bfe;
+            --gradient-1: #6c5ce7;
+            --gradient-2: #fd79a8;
+            --shadow: rgba(0, 0, 0, 0.5);
+            --shadow-light: rgba(108, 92, 231, 0.15);
+            --radius: 16px;
+            --transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --navbar-bg: rgba(10, 10, 18, 0.85);
+            --input-bg: #1a1a2e;
+        }
+
+        body.light {
+            --bg: #f0f2ff;
+            --bg-secondary: #e8eafe;
+            --card: #ffffff;
+            --card-hover: #f5f6ff;
+            --text: #1a1a2e;
+            --text-secondary: #6b6b8a;
+            --text-muted: #9a9aba;
+            --border: #e0e0f0;
+            --shadow: rgba(0, 0, 0, 0.08);
+            --shadow-light: rgba(108, 92, 231, 0.12);
+            --navbar-bg: rgba(255, 255, 255, 0.85);
+            --input-bg: #f0f2ff;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            transition: var(--transition);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 3px;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: var(--navbar-bg);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            padding: 14px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+            transition: var(--transition);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .nav-links li a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 10px;
+            transition: var(--transition);
+        }
+
+        .nav-links li a:hover {
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        body.light .nav-links li a:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-links li a.active {
+            color: var(--primary);
+            background: rgba(108, 92, 231, 0.12);
+        }
+
+        body.light .nav-links li a.active {
+            background: rgba(108, 92, 231, 0.08);
+        }
+
+        /* ===== THEME TOGGLE ===== */
+        .theme-toggle {
+            width: 52px;
+            height: 28px;
+            background: var(--border);
+            border-radius: 30px;
+            position: relative;
+            cursor: pointer;
+            transition: var(--transition);
+            flex-shrink: 0;
+            border: none;
+        }
+
+        .theme-toggle::before {
+            content: "🌙";
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            transition: var(--transition);
+            font-size: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        body.light .theme-toggle {
+            background: var(--primary);
+        }
+
+        body.light .theme-toggle::before {
+            content: "☀️";
+            left: 27px;
+        }
+
+        /* ===== HERO CONTACTO ===== */
+        .hero-contacto {
+            padding: 40px 40px 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            flex: 1;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 50px;
+            align-items: start;
+        }
+
+        /* ===== LEFT SECTION ===== */
+        .left h1 {
+            font-size: 48px;
+            font-weight: 900;
+            letter-spacing: -2px;
+            margin-bottom: 16px;
+        }
+
+        .left h1 span {
+            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .left p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.8;
+            margin-bottom: 12px;
+            max-width: 520px;
+        }
+
+        .info {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 14px;
+            margin-top: 28px;
+        }
+
+        .info-box {
+            background: var(--card);
+            padding: 18px 22px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .info-box:hover {
+            border-color: var(--primary);
+            transform: translateX(6px);
+            box-shadow: var(--shadow);
+        }
+
+        .info-box .icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: rgba(108, 92, 231, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .info-box h3 {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+
+        .info-box p {
+            font-size: 14px;
+            color: var(--text);
+            margin-bottom: 0;
+            max-width: 100%;
+        }
+
+        /* ===== FORM CARD ===== */
+        .form-card {
+            background: var(--card);
+            padding: 36px 38px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gradient-1), var(--gradient-2));
+        }
+
+        .form-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 12px 40px var(--shadow);
+        }
+
+        .form-card h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-card h2 span {
+            color: var(--primary);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+
+        .input-group label .required {
+            color: var(--gradient-2);
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+            width: 100%;
+            padding: 11px 14px;
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+            transition: var(--transition);
+            outline: none;
+        }
+
+        .input-group input:focus,
+        .input-group select:focus,
+        .input-group textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.12);
+        }
+
+        .input-group input::placeholder,
+        .input-group textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .input-group select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238a8aa8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+        }
+
+        .input-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .input-group small {
+            display: block;
+            margin-top: 4px;
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
+        /* ===== BUTTON ===== */
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(108, 92, 231, 0.35);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn i {
+            transition: var(--transition);
+        }
+
+        .btn:hover i {
+            transform: translateX(5px);
+        }
+
+        /* ===== MESSAGES ===== */
+        #mensajeError,
+        #mensajeExito {
+            padding: 12px 16px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+            display: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        #mensajeError {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        #mensajeExito {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            text-align: center;
+            padding: 28px 20px;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            background: var(--bg);
+            transition: var(--transition);
+        }
+
+        footer span {
+            background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .navbar {
+                padding: 12px 24px;
+            }
+
+            .hero-contacto {
+                padding: 30px 24px 40px;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .left h1 {
+                font-size: 38px;
+            }
+
+            .form-card {
+                padding: 28px 24px;
+            }
+        }
+
+        @media (max-width: 820px) {
+            .navbar {
+                flex-direction: column;
+                padding: 12px 20px;
+                gap: 8px;
+            }
+
+            .nav-links {
+                justify-content: center;
+                gap: 4px;
+            }
+
+            .nav-links li a {
+                font-size: 13px;
+                padding: 6px 12px;
+            }
+
+            .left h1 {
+                font-size: 32px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .info-box {
+                padding: 14px 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar {
+                padding: 10px 16px;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+
+            .nav-links li a {
+                font-size: 11px;
+                padding: 4px 10px;
+            }
+
+            .hero-contacto {
+                padding: 20px 16px 30px;
+            }
+
+            .left h1 {
+                font-size: 28px;
+            }
+
+            .left p {
+                font-size: 14px;
+            }
+
+            .form-card {
+                padding: 20px 16px;
+            }
+
+            .form-card h2 {
+                font-size: 20px;
+            }
+
+            .input-group input,
+            .input-group select,
+            .input-group textarea {
+                padding: 10px 12px;
+                font-size: 13px;
+            }
+
+            .btn {
+                font-size: 14px;
+                padding: 12px;
+            }
+
+            .info-box .icon {
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
+            }
+
+            .info-box h3 {
+                font-size: 11px;
+            }
+
+            .info-box p {
+                font-size: 13px;
+            }
+
+            .theme-toggle {
+                width: 44px;
+                height: 24px;
+            }
+
+            .theme-toggle::before {
+                width: 18px;
+                height: 18px;
+                font-size: 10px;
+            }
+
+            body.light .theme-toggle::before {
+                left: 23px;
+            }
+
+            footer {
+                font-size: 11px;
+                padding: 18px 16px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .nav-links li a {
+                font-size: 10px;
+                padding: 3px 8px;
+            }
+
+            .left h1 {
+                font-size: 24px;
+            }
+
+            .info {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== ANIMATION ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .left,
+        .form-card,
+        .info-box {
+            animation: fadeInUp 0.6s ease both;
+        }
+
+        .left { animation-delay: 0.05s; }
+        .form-card { animation-delay: 0.15s; }
+        .info-box:nth-child(1) { animation-delay: 0.20s; }
+        .info-box:nth-child(2) { animation-delay: 0.25s; }
+        .info-box:nth-child(3) { animation-delay: 0.30s; }
+    </style>
 </head>
 <body>
 
+    <!-- ===== NAVBAR ===== -->
     <nav class="navbar">
-        <div class="logo">ELOHANU</div>
+        <a href="ELOHANU_BUSINESS.html" class="logo">ELOHANU</a>
         <ul class="nav-links">
             <li><a href="ELOHANU_BUSINESS.html">Inicio</a></li>
             <li><a href="quienes-somos.html">Quiénes Somos</a></li>
             <li><a href="blog-noticias.html">Blog</a></li>
-            <li><a href="contactanos.html">Contáctanos</a></li>
+            <li><a href="contactanos.html" class="active">Contáctanos</a></li>
             <li><a href="login.html">Login</a></li>
+            <li><a href="dashboard.html">Dashboard</a></li>
         </ul>
-        <div class="theme-toggle" id="themeBtn"></div>
+        <button class="theme-toggle" id="themeBtn" aria-label="Cambiar tema"></button>
     </nav>
 
+    <!-- ===== HERO CONTACTO ===== -->
     <section class="hero-contacto">
         <div class="hero-content">
+
+            <!-- LEFT -->
             <div class="left">
-                <h1>Contáctanos</h1>
-                <p>En ELOHANU BUSINESS estamos listos para ayudarte con asesoría contable, tributaria y financiera para tu empresa o emprendimiento.</p>
-                <p>Nuestro equipo responderá tus solicitudes y consultas lo más pronto posible.</p>
-                
+                <h1>📬 <span>Contáctanos</span></h1>
+                <p>
+                    En <strong>ELOHANU BUSINESS</strong> estamos listos para ayudarte con asesoría contable,
+                    tributaria y financiera para tu empresa o emprendimiento.
+                </p>
+                <p>
+                    Nuestro equipo responderá tus solicitudes y consultas lo más pronto posible.
+                </p>
+
                 <div class="info">
                     <div class="info-box">
-                        <h3>📍 Dirección</h3>
-                        <p>Avenida Empresarial #45 - 20, Bogotá, Colombia</p>
+                        <div class="icon"><i class="fas fa-map-pin"></i></div>
+                        <div>
+                            <h3>📍 Dirección</h3>
+                            <p>Av 9 24-24 patio centro, Colombia</p>
+                        </div>
                     </div>
                     <div class="info-box">
-                        <h3>📞 Teléfono</h3>
-                        <p>+57 300 123 4567</p>
+                        <div class="icon"><i class="fas fa-phone"></i></div>
+                        <div>
+                            <h3>📞 Teléfono</h3>
+                            <p>+57 300 123 4567</p>
+                        </div>
                     </div>
                     <div class="info-box">
-                        <h3>✉️ Correo</h3>
-                        <p>contacto@elohanu.com</p>
+                        <div class="icon"><i class="fas fa-envelope"></i></div>
+                        <div>
+                            <h3>✉️ Correo</h3>
+                            <p>contacto@elohanu.com</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
+            <!-- FORM -->
             <div class="form-card">
-                <h2>Envíanos un mensaje</h2>
-                
+                <h2>✉️ <span>Envíanos</span> un mensaje</h2>
+
                 <form id="formContacto">
-                    <div class="input-group">
-                        <label>Nombre Completo *</label>
-                        <input type="text" id="nombre" required>
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label>Nombre <span class="required">*</span></label>
+                            <input type="text" id="nombre" placeholder="Tu nombre" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Apellido <span class="required">*</span></label>
+                            <input type="text" id="apellido" placeholder="Tu apellido" required>
+                        </div>
                     </div>
 
-                    <div class="input-group">
-                        <label>Apellido *</label>
-                        <input type="text" id="apellido" required>
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label>Correo <span class="required">*</span></label>
+                            <input type="email" id="email" placeholder="tu@email.com" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Teléfono <span class="required">*</span></label>
+                            <input type="tel" id="telefono" placeholder="+57 300 123 4567" required>
+                        </div>
                     </div>
 
-                    <div class="input-group">
-                        <label>Correo Electrónico *</label>
-                        <input type="email" id="email" required>
-                    </div>
-
-                    <div class="input-group">
-                        <label>Teléfono *</label>
-                        <input type="tel" id="telefono" required>
-                    </div>
-
-                    <div class="input-group">
-                        <label>Ciudad *</label>
-                        <input type="text" id="ciudad" required>
-                    </div>
-
-                    <div class="input-group">
-                        <label>Dirección</label>
-                        <input type="text" id="direccion">
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label>Ciudad <span class="required">*</span></label>
+                            <input type="text" id="ciudad" placeholder="Bogotá" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Dirección</label>
+                            <input type="text" id="direccion" placeholder="Calle 123 #45-67">
+                        </div>
                     </div>
 
                     <div class="input-group">
                         <label>Servicio de interés</label>
                         <select id="servicio">
                             <option value="">Selecciona un servicio</option>
-                            <option value="Asesoría Contable">Asesoría Contable</option>
-                            <option value="Asesoría Tributaria">Asesoría Tributaria</option>
-                            <option value="Asesoría Financiera">Asesoría Financiera</option>
-                            <option value="Auditoría">Auditoría</option>
-                            <option value="Consultoría Empresarial">Consultoría Empresarial</option>
+                            <option value="Asesoría Contable">📊 Asesoría Contable</option>
+                            <option value="Asesoría Tributaria">📋 Asesoría Tributaria</option>
+                            <option value="Asesoría Financiera">💰 Asesoría Financiera</option>
+                            <option value="Auditoría">🔍 Auditoría</option>
+                            <option value="Consultoría Empresarial">🏢 Consultoría Empresarial</option>
                         </select>
                     </div>
 
-                    <div class="input-group">
-                        <label>Fecha preferida</label>
-                        <input type="date" id="fecha" min="">
-                    </div>
-
-                    <div class="input-group">
-                        <label>Hora preferida</label>
-                        <input type="time" id="hora">
-                        <small style="color: var(--subtext);">Formato 24 horas (ej: 14:30)</small>
+                    <div class="form-row">
+                        <div class="input-group">
+                            <label>Fecha preferida</label>
+                            <input type="date" id="fecha">
+                        </div>
+                        <div class="input-group">
+                            <label>Hora preferida</label>
+                            <input type="time" id="hora">
+                            <small>Formato 24 horas (ej: 14:30)</small>
+                        </div>
                     </div>
 
                     <div class="input-group">
@@ -105,104 +759,113 @@
                         <textarea id="mensaje" rows="4" placeholder="Escribe tu consulta aquí..."></textarea>
                     </div>
 
-                    <div id="mensajeError" style="color: #ff6b6b; margin-bottom: 15px; display: none; padding: 10px; background: rgba(255,107,107,0.1); border-radius: 8px;"></div>
-                    <div id="mensajeExito" style="color: #51cf66; margin-bottom: 15px; display: none; padding: 10px; background: rgba(81,207,102,0.1); border-radius: 8px;"></div>
+                    <div id="mensajeError"></div>
+                    <div id="mensajeExito"></div>
 
-                    <button type="submit" class="btn">Enviar Mensaje</button>
+                    <button type="submit" class="btn">
+                        Enviar Mensaje <i class="fas fa-paper-plane"></i>
+                    </button>
                 </form>
             </div>
+
         </div>
     </section>
 
+    <!-- ===== FOOTER ===== -->
     <footer>
-        © 2026 ELOHANU BUSINESS - Todos los derechos reservados
+        © 2026 <span>ELOHANU BUSINESS</span> — Todos los derechos reservados
     </footer>
 
+    <!-- ===== SCRIPT ===== -->
     <script>
-        // Tema oscuro/claro
+        // ===== TEMA =====
         const themeBtn = document.getElementById("themeBtn");
-        if (themeBtn) {
-            themeBtn.addEventListener("click", () => {
-                document.body.classList.toggle("light");
-            });
+        const savedTheme = localStorage.getItem('contact-theme');
+        if (savedTheme === 'light') {
+            document.body.classList.add('light');
         }
 
-        // Configurar fecha mínima (hoy)
+        themeBtn.addEventListener("click", () => {
+            document.body.classList.toggle("light");
+            localStorage.setItem('contact-theme',
+                document.body.classList.contains('light') ? 'light' : 'dark'
+            );
+        });
+
+        // ===== FECHA MÍNIMA =====
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('fecha').setAttribute('min', today);
 
-        // Función para mostrar mensajes
+        // ===== MENSAJES =====
         function mostrarMensaje(mensaje, tipo) {
             const errorDiv = document.getElementById('mensajeError');
             const exitoDiv = document.getElementById('mensajeExito');
-            
+
+            errorDiv.style.display = 'none';
+            exitoDiv.style.display = 'none';
+
             if (tipo === 'error') {
                 errorDiv.textContent = mensaje;
                 errorDiv.style.display = 'block';
-                exitoDiv.style.display = 'none';
                 setTimeout(() => {
                     errorDiv.style.display = 'none';
                 }, 5000);
             } else {
                 exitoDiv.textContent = mensaje;
                 exitoDiv.style.display = 'block';
-                errorDiv.style.display = 'none';
                 setTimeout(() => {
                     exitoDiv.style.display = 'none';
                 }, 5000);
             }
         }
 
-        // Enviar formulario a Flask
+        // ===== ENVIAR FORMULARIO =====
         document.getElementById('formContacto').addEventListener('submit', async (e) => {
             e.preventDefault();
-            
-            // Validar campos requeridos
+
             const nombre = document.getElementById('nombre').value.trim();
             const apellido = document.getElementById('apellido').value.trim();
             const email = document.getElementById('email').value.trim();
             const telefono = document.getElementById('telefono').value.trim();
             const ciudad = document.getElementById('ciudad').value.trim();
-            
+
+            // Validaciones
             if (!nombre || !apellido || !email || !telefono || !ciudad) {
-                mostrarMensaje('Por favor completa todos los campos obligatorios (*)', 'error');
+                mostrarMensaje('❌ Por favor completa todos los campos obligatorios (*)', 'error');
                 return;
             }
-            
-            // Validar email
+
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
-                mostrarMensaje('Por favor ingresa un correo electrónico válido', 'error');
+                mostrarMensaje('❌ Por favor ingresa un correo electrónico válido', 'error');
                 return;
             }
-            
-            // Validar teléfono
+
             const telefonoRegex = /^[+\d\s-]+$/;
             if (!telefonoRegex.test(telefono)) {
-                mostrarMensaje('Por favor ingresa un número de teléfono válido', 'error');
+                mostrarMensaje('❌ Por favor ingresa un número de teléfono válido', 'error');
                 return;
             }
-            
+
             const formData = {
-                nombre: nombre,
-                apellido: apellido,
-                email: email,
-                telefono: telefono,
-                ciudad: ciudad,
+                nombre,
+                apellido,
+                email,
+                telefono,
+                ciudad,
                 direccion: document.getElementById('direccion').value.trim(),
                 servicio: document.getElementById('servicio').value,
                 fecha: document.getElementById('fecha').value || null,
                 hora: document.getElementById('hora').value || null,
                 mensaje: document.getElementById('mensaje').value.trim()
             };
-            
+
             const btn = e.target.querySelector('button[type="submit"]');
-            const originalText = btn.textContent;
-            btn.textContent = 'Enviando...';
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '⏳ Enviando...';
             btn.disabled = true;
-            
+
             try {
-                // Enviar al backend de Flask
                 const response = await fetch('http://localhost:3000/api/contacto', {
                     method: 'POST',
                     headers: {
@@ -211,24 +874,22 @@
                     },
                     body: JSON.stringify(formData)
                 });
-                
+
                 const result = await response.json();
-                
+
                 if (response.ok && result.success) {
                     mostrarMensaje('✅ ¡Mensaje enviado exitosamente! Te contactaremos pronto.', 'exito');
                     e.target.reset();
-                    // Resetear fecha mínima después de resetear el formulario
                     document.getElementById('fecha').setAttribute('min', today);
                 } else {
-                    const errorMsg = result.message || 'Error al enviar el mensaje';
-                    mostrarMensaje('❌ Error: ' + errorMsg, 'error');
+                    mostrarMensaje('❌ Error: ' + (result.message || 'Error al enviar el mensaje'), 'error');
                 }
-                
+
             } catch (error) {
-                console.error('Error de conexión:', error);
-                mostrarMensaje('❌ Error de conexión. Verifica que el servidor Flask esté corriendo en http://localhost:3000', 'error');
+                console.error('Error:', error);
+                mostrarMensaje('❌ Error de conexión. Verifica que el servidor esté corriendo.', 'error');
             } finally {
-                btn.textContent = originalText;
+                btn.innerHTML = originalText;
                 btn.disabled = false;
             }
         });

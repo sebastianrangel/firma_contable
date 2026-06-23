@@ -4,277 +4,546 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | ELOHANU BUSINESS</title>
-   <link rel="stylesheet" href="/styles.css">
     <style>
+        /* ===== RESET & BASE ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f5f5;
-            color: #333;
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --bg: #f1f5f9;
+            --card-bg: #ffffff;
+            --text: #0f172a;
+            --text-secondary: #475569;
+            --border: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --radius: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Navbar */
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--secondary);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+
+        /* ===== NAVBAR ===== */
         .navbar {
-            background: #2c3e50;
-            color: white;
-            padding: 1rem 2rem;
+            background: var(--card-bg);
+            padding: 0.75rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--border);
         }
 
         .logo {
             font-size: 1.5rem;
-            font-weight: bold;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            font-weight: 300;
+            -webkit-text-fill-color: var(--text-secondary);
         }
 
         .nav-links {
             display: flex;
             list-style: none;
-            gap: 2rem;
+            gap: 0.5rem;
+            flex-wrap: wrap;
         }
 
         .nav-links li a {
-            color: white;
+            color: var(--text-secondary);
             text-decoration: none;
             padding: 0.5rem 1rem;
-            border-radius: 5px;
-            transition: background 0.3s;
+            border-radius: 8px;
+            transition: var(--transition);
+            font-weight: 500;
+            font-size: 0.875rem;
         }
 
         .nav-links li a:hover {
-            background: #34495e;
+            background: var(--bg);
+            color: var(--text);
         }
 
         .nav-links li a.active {
-            background: #3498db;
+            background: var(--primary);
+            color: white;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
         }
 
         .theme-toggle {
             cursor: pointer;
             padding: 0.5rem;
-            font-size: 1.2rem;
+            font-size: 1.25rem;
+            border-radius: 8px;
+            transition: var(--transition);
+            background: var(--bg);
+            border: none;
+            line-height: 1;
         }
 
-        /* Modo oscuro/claro */
+        .theme-toggle:hover {
+            transform: rotate(20deg);
+        }
+
+        /* ===== THEME ===== */
         body.light {
-            background: #ffffff;
-            color: #333;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #0f172a;
+            --text-secondary: #475569;
+            --border: #e2e8f0;
         }
 
-        body.light .navbar {
-            background: #ffffff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        body.dark {
+            --bg: #0f172a;
+            --card-bg: #1e293b;
+            --text: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border: #334155;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
         }
 
-        body.light .navbar a {
-            color: #333;
+        body.dark .stat-card,
+        body.dark .table-container,
+        body.dark .modal-content {
+            background: var(--card-bg);
         }
 
-        body.light .navbar a:hover {
-            background: #e0e0e0;
+        body.dark .navbar {
+            background: var(--card-bg);
+            border-bottom-color: var(--border);
         }
 
-        body.light .footer {
-            background: #f8f9fa;
-            color: #666;
+        body.dark .logo span {
+            -webkit-text-fill-color: var(--text-secondary);
         }
 
-        /* Container */
+        body.dark th {
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        body.dark tr:hover {
+            background: var(--bg);
+        }
+
+        body.dark .footer {
+            background: var(--card-bg);
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        /* ===== CONTAINER ===== */
         .container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 2rem;
+            flex: 1;
+            width: 100%;
         }
 
-        /* Stats Cards */
+        /* ===== PAGE HEADER ===== */
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .page-header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .page-header p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* ===== STATS GRID ===== */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 1.5rem;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
         }
 
         .stat-card {
-            background: white;
+            background: var(--card-bg);
             padding: 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            text-align: center;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
         }
 
-        body.light .stat-card {
-            background: #ffffff;
-            border: 1px solid #e0e0e0;
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .stat-card .icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
         }
 
         .stat-card h3 {
-            color: #7f8c8d;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
         }
 
         .stat-number {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #2c3e50;
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: var(--text);
+            letter-spacing: -1px;
         }
 
-        /* Tabs */
+        .stat-change {
+            font-size: 0.75rem;
+            color: var(--success);
+            background: rgba(34, 197, 94, 0.1);
+            padding: 0.15rem 0.5rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 0.25rem;
+        }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), #7c3aed);
+        }
+
+        /* ===== TABS ===== */
         .tabs {
             display: flex;
-            gap: 1rem;
+            gap: 0.5rem;
             margin-bottom: 2rem;
-            border-bottom: 2px solid #ddd;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+            flex-wrap: wrap;
         }
 
         .tab-btn {
-            padding: 0.75rem 1.5rem;
+            padding: 0.6rem 1.5rem;
             background: none;
             border: none;
             cursor: pointer;
-            font-size: 1rem;
-            color: #7f8c8d;
-            transition: all 0.3s;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            border-radius: 8px;
+            position: relative;
         }
 
         .tab-btn:hover {
-            color: #2c3e50;
+            color: var(--text);
+            background: var(--bg);
         }
 
         .tab-btn.active {
-            color: #3498db;
-            border-bottom: 2px solid #3498db;
-            margin-bottom: -2px;
+            color: var(--primary);
+            background: rgba(37, 99, 235, 0.08);
+        }
+
+        .tab-btn .badge-count {
+            background: var(--primary);
+            color: white;
+            font-size: 0.65rem;
+            padding: 0.1rem 0.5rem;
+            border-radius: 20px;
+            margin-left: 0.3rem;
         }
 
         .tab-content {
             display: none;
+            animation: fadeIn 0.3s ease;
         }
 
         .tab-content.active {
             display: block;
         }
 
-        /* Tables */
-        .table-container {
-            background: white;
-            border-radius: 10px;
-            overflow-x: auto;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        body.light .table-container {
-            border: 1px solid #e0e0e0;
+        /* ===== TABLE ===== */
+        .table-container {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            overflow-x: auto;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .table-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .table-toolbar .search-box {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--bg);
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .table-toolbar .search-box input {
+            border: none;
+            background: transparent;
+            padding: 0.3rem 0;
+            font-size: 0.875rem;
+            color: var(--text);
+            outline: none;
+            min-width: 180px;
+        }
+
+        .table-toolbar .search-box input::placeholder {
+            color: var(--text-secondary);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
+            font-size: 0.9rem;
         }
 
         th {
-            background: #f8f9fa;
+            padding: 0.9rem 1.2rem;
+            text-align: left;
             font-weight: 600;
-            color: #2c3e50;
+            color: var(--text-secondary);
+            background: var(--bg);
+            border-bottom: 2px solid var(--border);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
         }
 
-        tr:hover {
-            background: #f8f9fa;
+        td {
+            padding: 0.9rem 1.2rem;
+            border-bottom: 1px solid var(--border);
+            vertical-align: middle;
         }
 
-        /* Badges */
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: var(--bg);
+        }
+
+        /* ===== BADGES ===== */
         .badge {
             padding: 0.25rem 0.75rem;
             border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            display: inline-block;
         }
 
         .badge-pendiente {
-            background: #fff3cd;
-            color: #856404;
+            background: #fef3c7;
+            color: #92400e;
         }
 
         .badge-confirmada {
-            background: #d1ecf1;
-            color: #0c5460;
+            background: #dbeafe;
+            color: #1e40af;
         }
 
         .badge-completada {
-            background: #d4edda;
-            color: #155724;
+            background: #d1fae5;
+            color: #065f46;
         }
 
         .badge-cancelada {
-            background: #f8d7da;
-            color: #721c24;
+            background: #fee2e2;
+            color: #991b1b;
         }
 
-        /* Buttons */
+        body.dark .badge-pendiente {
+            background: #78350f;
+            color: #fcd34d;
+        }
+        body.dark .badge-confirmada {
+            background: #1e3a5f;
+            color: #93c5fd;
+        }
+        body.dark .badge-completada {
+            background: #064e3b;
+            color: #6ee7b7;
+        }
+        body.dark .badge-cancelada {
+            background: #7f1d1d;
+            color: #fca5a5;
+        }
+
+        /* ===== BUTTONS ===== */
         .btn {
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 1.2rem;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 0.85rem;
-            transition: all 0.3s;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            text-decoration: none;
         }
 
         .btn-primary {
-            background: #3498db;
+            background: var(--primary);
             color: white;
         }
-
         .btn-primary:hover {
-            background: #2980b9;
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow);
         }
 
         .btn-success {
-            background: #27ae60;
+            background: var(--success);
             color: white;
         }
-
         .btn-success:hover {
-            background: #229954;
+            background: #16a34a;
+            transform: translateY(-1px);
         }
 
         .btn-danger {
-            background: #e74c3c;
+            background: var(--danger);
             color: white;
         }
-
         .btn-danger:hover {
-            background: #c0392b;
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+        .btn-outline:hover {
+            background: var(--bg);
         }
 
         .btn-sm {
-            padding: 0.25rem 0.5rem;
+            padding: 0.25rem 0.7rem;
             font-size: 0.75rem;
-            margin: 0 0.25rem;
         }
 
-        select.btn-sm {
+        .actions {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+
+        .actions select {
             padding: 0.25rem 0.5rem;
-            font-size: 0.75rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            font-size: 0.7rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--bg);
+            color: var(--text);
             cursor: pointer;
+            outline: none;
         }
 
-        /* Modal */
+        .actions select:focus {
+            border-color: var(--primary);
+        }
+
+        /* ===== MODAL ===== */
         .modal {
             display: none;
             position: fixed;
@@ -282,8 +551,10 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
             z-index: 1000;
+            animation: fadeIn 0.2s ease;
         }
 
         .modal-content {
@@ -291,16 +562,16 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: white;
+            background: var(--card-bg);
             padding: 2rem;
-            border-radius: 10px;
+            border-radius: var(--radius);
             min-width: 400px;
             max-width: 500px;
-        }
-
-        body.light .modal-content {
-            background: white;
-            border: 1px solid #e0e0e0;
+            width: 90%;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border);
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .modal-header {
@@ -310,49 +581,93 @@
             margin-bottom: 1.5rem;
         }
 
+        .modal-header h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
         .close {
             cursor: pointer;
-            font-size: 1.5rem;
-            color: #7f8c8d;
+            font-size: 1.75rem;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            line-height: 1;
+            background: none;
+            border: none;
+        }
+
+        .close:hover {
+            color: var(--text);
+            transform: rotate(90deg);
         }
 
         .form-group {
-            margin-bottom: 1rem;
+            margin-bottom: 1.25rem;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
         }
 
         .form-group input,
         .form-group textarea,
         .form-group select {
             width: 100%;
-            padding: 0.5rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
+            padding: 0.6rem 0.8rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg);
+            color: var(--text);
+            font-size: 0.9rem;
+            transition: var(--transition);
+            outline: none;
         }
 
-        /* Alert */
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        /* ===== ALERT ===== */
         .alert {
             position: fixed;
             top: 20px;
             right: 20px;
-            padding: 1rem;
-            border-radius: 5px;
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius);
             color: white;
             z-index: 1100;
             animation: slideIn 0.3s ease;
+            box-shadow: var(--shadow-lg);
+            font-weight: 600;
+            max-width: 400px;
         }
 
         .alert-success {
-            background: #27ae60;
+            background: var(--success);
         }
-
         .alert-error {
-            background: #e74c3c;
+            background: var(--danger);
+        }
+        .alert-info {
+            background: var(--primary);
         }
 
         @keyframes slideIn {
@@ -366,52 +681,250 @@
             }
         }
 
-        .actions {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        /* Footer */
+        /* ===== FOOTER ===== */
         .footer {
-            background: #2c3e50;
-            color: white;
+            background: var(--card-bg);
+            color: var(--text-secondary);
             text-align: center;
-            padding: 2rem;
+            padding: 1.5rem 2rem;
             margin-top: 3rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.875rem;
         }
 
-        body.light .footer {
-            background: #f0f0f0;
-            color: #666;
+        /* ===== RESPONSIVE ===== */
+
+        /* Tablets y pantallas medianas */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 1.5rem;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
+        /* Móviles grandes */
         @media (max-width: 768px) {
+            .navbar {
+                padding: 0.6rem 1rem;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.5rem;
+            }
+
+            .nav-links {
+                justify-content: center;
+                gap: 0.25rem;
+            }
+
+            .nav-links li a {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.8rem;
+            }
+
+            .nav-actions {
+                justify-content: center;
+            }
+
             .container {
                 padding: 1rem;
             }
-            
+
+            .page-header h1 {
+                font-size: 1.25rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.75rem;
+            }
+
+            .stat-card {
+                padding: 1rem;
+            }
+
+            .stat-number {
+                font-size: 1.5rem;
+            }
+
+            .stat-card h3 {
+                font-size: 0.7rem;
+            }
+
+            .tabs {
+                gap: 0.25rem;
+            }
+
+            .tab-btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+            }
+
+            th,
+            td {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.8rem;
+            }
+
+            .table-toolbar {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 0.75rem 1rem;
+            }
+
+            .table-toolbar .search-box input {
+                min-width: unset;
+                width: 100%;
+            }
+
+            .modal-content {
+                min-width: unset;
+                max-width: 95%;
+                padding: 1.5rem;
+                margin: 1rem;
+                width: 95%;
+            }
+
+            .actions {
+                gap: 0.25rem;
+            }
+
+            .btn-sm {
+                padding: 0.15rem 0.4rem;
+                font-size: 0.65rem;
+            }
+
+            .alert {
+                top: 10px;
+                right: 10px;
+                left: 10px;
+                max-width: unset;
+                font-size: 0.85rem;
+                padding: 0.75rem 1rem;
+            }
+        }
+
+        /* Móviles pequeños */
+        @media (max-width: 480px) {
             .stats-grid {
                 grid-template-columns: 1fr;
             }
-            
-            th, td {
-                padding: 0.5rem;
-            }
-            
+
             .nav-links {
-                gap: 0.5rem;
+                flex-wrap: wrap;
+                gap: 0.15rem;
             }
-            
+
             .nav-links li a {
-                padding: 0.25rem 0.5rem;
-                font-size: 0.9rem;
+                padding: 0.2rem 0.4rem;
+                font-size: 0.7rem;
             }
+
+            .logo {
+                font-size: 1.2rem;
+                text-align: center;
+            }
+
+            .container {
+                padding: 0.75rem;
+            }
+
+            .stat-card {
+                padding: 0.75rem;
+            }
+
+            .stat-number {
+                font-size: 1.25rem;
+            }
+
+            .tab-btn {
+                font-size: 0.7rem;
+                padding: 0.3rem 0.6rem;
+            }
+
+            th,
+            td {
+                padding: 0.4rem 0.5rem;
+                font-size: 0.7rem;
+            }
+
+            .badge {
+                font-size: 0.6rem;
+                padding: 0.15rem 0.5rem;
+            }
+
+            .modal-content {
+                padding: 1rem;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .form-actions .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Móviles muy pequeños */
+        @media (max-width: 360px) {
+            .nav-links li a {
+                font-size: 0.6rem;
+                padding: 0.15rem 0.3rem;
+            }
+
+            .stat-number {
+                font-size: 1rem;
+            }
+
+            .stat-card .icon {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* ===== UTILITY ===== */
+        .text-center {
+            text-align: center;
+        }
+        .text-muted {
+            color: var(--text-secondary);
+        }
+        .mt-1 {
+            margin-top: 0.5rem;
+        }
+        .mb-1 {
+            margin-bottom: 0.5rem;
+        }
+        .gap-1 {
+            gap: 0.5rem;
+        }
+        .flex {
+            display: flex;
+        }
+        .flex-center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .flex-wrap {
+            flex-wrap: wrap;
+        }
+        .w-full {
+            width: 100%;
         }
     </style>
 </head>
 <body>
+    <!-- ===== NAVBAR ===== -->
     <nav class="navbar">
-        <div class="logo">ELOHANU</div>
+        <div class="logo">ELOHANU <span>BUSINESS</span></div>
         <ul class="nav-links">
             <li><a href="ELOHANU_BUSINESS.html">Inicio</a></li>
             <li><a href="quienes-somos.html">Quiénes Somos</a></li>
@@ -420,39 +933,72 @@
             <li><a href="dashboard.html" class="active">Dashboard</a></li>
             <li><a href="login.html">Login</a></li>
         </ul>
-        <div class="theme-toggle" id="themeBtn">🌓</div>
+        <div class="nav-actions">
+            <button class="theme-toggle" id="themeBtn" aria-label="Cambiar tema">🌓</button>
+        </div>
     </nav>
 
+    <!-- ===== MAIN CONTENT ===== -->
     <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h1>📊 Dashboard</h1>
+                <p>Gestión y monitoreo de tu negocio</p>
+            </div>
+            <div class="flex" style="gap:0.5rem; flex-wrap:wrap;">
+                <button class="btn btn-outline btn-sm" onclick="cargarDatos()">🔄 Actualizar</button>
+            </div>
+        </div>
+
         <!-- Stats Cards -->
         <div class="stats-grid" id="statsGrid">
             <div class="stat-card">
+                <span class="icon">📅</span>
                 <h3>Total Citas</h3>
                 <div class="stat-number" id="totalCitas">0</div>
+                <span class="stat-change">↑ 12% este mes</span>
             </div>
             <div class="stat-card">
+                <span class="icon">📌</span>
                 <h3>Citas Hoy</h3>
                 <div class="stat-number" id="citasHoy">0</div>
+                <span class="stat-change" style="color:var(--warning);">Pendientes: 3</span>
             </div>
             <div class="stat-card">
+                <span class="icon">👤</span>
                 <h3>Total Clientes</h3>
                 <div class="stat-number" id="totalClientes">0</div>
+                <span class="stat-change">↑ 8% este mes</span>
             </div>
             <div class="stat-card">
+                <span class="icon">🔧</span>
                 <h3>Total Servicios</h3>
                 <div class="stat-number" id="totalServicios">0</div>
+                <span class="stat-change">Activos: 5</span>
             </div>
         </div>
 
         <!-- Tabs -->
         <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('citas')">📋 Citas</button>
-            <button class="tab-btn" onclick="switchTab('servicios')">🔧 Servicios</button>
+            <button class="tab-btn active" onclick="switchTab('citas', event)">
+                📋 Citas <span class="badge-count" id="citasCount">0</span>
+            </button>
+            <button class="tab-btn" onclick="switchTab('servicios', event)">
+                🔧 Servicios <span class="badge-count" id="serviciosCount">0</span>
+            </button>
         </div>
 
         <!-- Citas Tab -->
         <div id="citasTab" class="tab-content active">
             <div class="table-container">
+                <div class="table-toolbar">
+                    <div class="search-box">
+                        <span>🔍</span>
+                        <input type="text" placeholder="Buscar citas..." id="searchCitas" oninput="filtrarCitas()">
+                    </div>
+                    <span class="text-muted" style="font-size:0.8rem;" id="citasTotal">0 registros</span>
+                </div>
                 <table>
                     <thead>
                         <tr>
@@ -468,7 +1014,7 @@
                     </thead>
                     <tbody id="citasTableBody">
                         <tr>
-                            <td colspan="8" style="text-align: center;">Cargando...</td>
+                            <td colspan="8" class="text-center text-muted">Cargando citas...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -477,10 +1023,13 @@
 
         <!-- Servicios Tab -->
         <div id="serviciosTab" class="tab-content">
-            <div style="margin-bottom: 1rem;">
-                <button class="btn btn-primary" onclick="abrirModalServicio()">+ Nuevo Servicio</button>
-            </div>
             <div class="table-container">
+                <div class="table-toolbar">
+                    <div class="flex flex-wrap" style="gap:0.5rem;">
+                        <button class="btn btn-primary" onclick="abrirModalServicio()">+ Nuevo Servicio</button>
+                    </div>
+                    <span class="text-muted" style="font-size:0.8rem;" id="serviciosTotal">0 registros</span>
+                </div>
                 <table>
                     <thead>
                         <tr>
@@ -494,7 +1043,7 @@
                     </thead>
                     <tbody id="serviciosTableBody">
                         <tr>
-                            <td colspan="6" style="text-align: center;">Cargando...</td>
+                            <td colspan="6" class="text-center text-muted">Cargando servicios...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -502,38 +1051,39 @@
         </div>
     </div>
 
+    <!-- ===== FOOTER ===== -->
     <footer class="footer">
         © 2026 ELOHANU BUSINESS - Todos los derechos reservados
     </footer>
 
-    <!-- Modal para Servicios -->
+    <!-- ===== MODAL ===== -->
     <div id="servicioModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 id="modalTitle">Nuevo Servicio</h3>
-                <span class="close" onclick="cerrarModalServicio()">&times;</span>
+                <button class="close" onclick="cerrarModalServicio()">&times;</button>
             </div>
             <form id="servicioForm">
                 <input type="hidden" id="servicioId">
                 <div class="form-group">
                     <label>Nombre *</label>
-                    <input type="text" id="servicioNombre" required>
+                    <input type="text" id="servicioNombre" required placeholder="Ej: Calculo de impuestos">
                 </div>
                 <div class="form-group">
                     <label>Descripción</label>
-                    <textarea id="servicioDescripcion" rows="3"></textarea>
+                    <textarea id="servicioDescripcion" rows="3" placeholder="Descripción del servicio..."></textarea>
                 </div>
                 <div class="form-group">
                     <label>Precio</label>
-                    <input type="number" id="servicioPrecio" step="0.01">
+                    <input type="number" id="servicioPrecio" step="0.01" placeholder="0.00">
                 </div>
                 <div class="form-group">
                     <label>Duración (minutos)</label>
-                    <input type="number" id="servicioDuracion">
+                    <input type="number" id="servicioDuracion" placeholder="30">
                 </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-                    <button type="button" class="btn" onclick="cerrarModalServicio()">Cancelar</button>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">💾 Guardar</button>
+                    <button type="button" class="btn btn-outline" onclick="cerrarModalServicio()">Cancelar</button>
                 </div>
             </form>
         </div>
@@ -541,76 +1091,96 @@
 
     <script>
         const API_URL = 'http://localhost:3000/api';
+        let citasData = [];
+        let serviciosData = [];
 
-        // Tema oscuro/claro
-        const themeBtn = document.getElementById("themeBtn");
-        if (themeBtn) {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'light') {
-                document.body.classList.add('light');
-            }
-            
-            themeBtn.addEventListener("click", () => {
-                document.body.classList.toggle("light");
-                if (document.body.classList.contains('light')) {
-                    localStorage.setItem('theme', 'light');
-                } else {
-                    localStorage.setItem('theme', 'dark');
-                }
-            });
-        }
+        // ===== TEMA OSCURO/CLARO =====
+        const themeBtn = document.getElementById('themeBtn');
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.body.className = savedTheme;
+        themeBtn.textContent = savedTheme === 'dark' ? '🌞' : '🌓';
 
-        // Cargar datos iniciales
+        themeBtn.addEventListener('click', () => {
+            const isDark = document.body.classList.toggle('dark');
+            document.body.classList.toggle('light', !isDark);
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            themeBtn.textContent = isDark ? '🌞' : '🌓';
+        });
+
+        // ===== CARGAR DATOS =====
         function cargarDatos() {
             cargarEstadisticas();
             cargarCitas();
             cargarServicios();
         }
 
-        // Cargar estadísticas
+        // ===== ESTADÍSTICAS =====
         async function cargarEstadisticas() {
             try {
                 const response = await fetch(`${API_URL}/stats`);
+                if (!response.ok) throw new Error('Error en stats');
                 const data = await response.json();
-                
+
                 document.getElementById('totalCitas').textContent = data.total_citas || 0;
                 document.getElementById('citasHoy').textContent = data.citas_hoy || 0;
                 document.getElementById('totalClientes').textContent = data.total_clientes || 0;
                 document.getElementById('totalServicios').textContent = data.total_servicios || 0;
             } catch (error) {
                 console.error('Error cargando estadísticas:', error);
+                mostrarAlerta('Error al cargar estadísticas', 'error');
             }
         }
 
-        // Cargar citas
+        // ===== CITAS =====
         async function cargarCitas() {
             try {
                 const response = await fetch(`${API_URL}/citas`);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const citas = await response.json();
-                
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                citasData = await response.json();
+
                 const tbody = document.getElementById('citasTableBody');
-                if (!citas || citas.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="8" style="text-align: center;">No hay citas registradas</td></tr>';
+                const totalEl = document.getElementById('citasTotal');
+                const countEl = document.getElementById('citasCount');
+
+                if (!citasData || citasData.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="8" class="text-center text-muted">No hay citas registradas</td></tr>';
+                    totalEl.textContent = '0 registros';
+                    countEl.textContent = '0';
                     return;
                 }
-                
-                tbody.innerHTML = citas.map(cita => `
+
+                totalEl.textContent = `${citasData.length} registros`;
+                countEl.textContent = citasData.length;
+                renderCitas(citasData);
+
+            } catch (error) {
+                console.error('Error cargando citas:', error);
+                document.getElementById('citasTableBody').innerHTML =
+                    `<tr><td colspan="8" class="text-center" style="color:var(--danger);">Error al cargar citas: ${error.message}</td></tr>`;
+            }
+        }
+
+        function renderCitas(citas) {
+            const tbody = document.getElementById('citasTableBody');
+            if (!citas || citas.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" class="text-center text-muted">No hay resultados</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = citas.map(cita => `
                     <tr>
-                        <td>${cita.id_cita}</td>
+                        <td><strong>#${cita.id_cita}</strong></td>
                         <td>${cita.nombre || 'N/A'} ${cita.apellido || ''}</td>
                         <td>${cita.email || 'N/A'}</td>
                         <td>${cita.telefono || 'N/A'}</td>
                         <td>${cita.fecha || 'N/A'}</td>
                         <td>${cita.hora || 'N/A'}</td>
                         <td>
-                            <span class="badge badge-${cita.estado}">${cita.estado || 'pendiente'}</span>
+                            <span class="badge badge-${cita.estado || 'pendiente'}">${cita.estado || 'pendiente'}</span>
                         </td>
                         <td class="actions">
                             <select onchange="cambiarEstado(${cita.id_cita}, this.value)" class="btn-sm">
-                                <option value="">Cambiar estado</option>
+                                <option value="">📌 Cambiar</option>
                                 <option value="pendiente" ${cita.estado === 'pendiente' ? 'selected' : ''}>Pendiente</option>
                                 <option value="confirmada" ${cita.estado === 'confirmada' ? 'selected' : ''}>Confirmada</option>
                                 <option value="completada" ${cita.estado === 'completada' ? 'selected' : ''}>Completada</option>
@@ -619,29 +1189,40 @@
                         </td>
                     </tr>
                 `).join('');
-            } catch (error) {
-                console.error('Error cargando citas:', error);
-                document.getElementById('citasTableBody').innerHTML = '<tr><td colspan="8" style="text-align: center; color: red;">Error al cargar citas: ' + error.message + '</td></tr>';
-            }
         }
 
-        // Cambiar estado de cita
+        function filtrarCitas() {
+            const search = document.getElementById('searchCitas').value.toLowerCase().trim();
+            if (!search) {
+                renderCitas(citasData);
+                document.getElementById('citasTotal').textContent = `${citasData.length} registros`;
+                return;
+            }
+
+            const filtered = citasData.filter(c =>
+                (c.nombre && c.nombre.toLowerCase().includes(search)) ||
+                (c.apellido && c.apellido.toLowerCase().includes(search)) ||
+                (c.email && c.email.toLowerCase().includes(search)) ||
+                (c.telefono && c.telefono.includes(search))
+            );
+            renderCitas(filtered);
+            document.getElementById('citasTotal').textContent = `${filtered.length} registros (filtrados)`;
+        }
+
         async function cambiarEstado(citaId, nuevoEstado) {
             if (!nuevoEstado) return;
-            
+
             try {
                 const response = await fetch(`${API_URL}/citas/${citaId}/estado`, {
                     method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ estado: nuevoEstado })
                 });
-                
+
                 const result = await response.json();
-                
+
                 if (response.ok) {
-                    mostrarAlerta('Estado actualizado correctamente', 'success');
+                    mostrarAlerta('✅ Estado actualizado correctamente', 'success');
                     cargarCitas();
                     cargarEstadisticas();
                 } else {
@@ -653,108 +1234,113 @@
             }
         }
 
-        // Cargar servicios
+        // ===== SERVICIOS =====
         async function cargarServicios() {
             try {
                 const response = await fetch(`${API_URL}/servicios`);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const servicios = await response.json();
-                
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                serviciosData = await response.json();
+
                 const tbody = document.getElementById('serviciosTableBody');
-                if (!servicios || servicios.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No hay servicios registrados</td></tr>';
+                const totalEl = document.getElementById('serviciosTotal');
+                const countEl = document.getElementById('serviciosCount');
+
+                if (!serviciosData || serviciosData.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted">No hay servicios registrados</td></tr>';
+                    totalEl.textContent = '0 registros';
+                    countEl.textContent = '0';
                     return;
                 }
-                
-                tbody.innerHTML = servicios.map(servicio => `
-                    <tr>
-                        <td>${servicio.id_servicio}</td>
-                        <td>${servicio.nombre}</td>
-                        <td>${servicio.descripcion || '-'}</td>
-                        <td>${servicio.precio ? `$${servicio.precio}` : '-'}</td>
-                        <td>${servicio.duracion ? `${servicio.duracion} min` : '-'}</td>
-                        <td class="actions">
-                            <button class="btn btn-primary btn-sm" onclick="editarServicio(${servicio.id_servicio})">Editar</button>
-                            <button class="btn btn-danger btn-sm" onclick="eliminarServicio(${servicio.id_servicio})">Eliminar</button>
-                        </td>
-                    </tr>
-                `).join('');
+
+                totalEl.textContent = `${serviciosData.length} registros`;
+                countEl.textContent = serviciosData.length;
+
+                tbody.innerHTML = serviciosData.map(servicio => `
+                        <tr>
+                            <td><strong>#${servicio.id_servicio}</strong></td>
+                            <td>${servicio.nombre}</td>
+                            <td>${servicio.descripcion || '-'}</td>
+                            <td>${servicio.precio ? `$${servicio.precio}` : '-'}</td>
+                            <td>${servicio.duracion ? `${servicio.duracion} min` : '-'}</td>
+                            <td class="actions">
+                                <button class="btn btn-primary btn-sm" onclick="editarServicio(${servicio.id_servicio})">✏️</button>
+                                <button class="btn btn-danger btn-sm" onclick="eliminarServicio(${servicio.id_servicio})">🗑️</button>
+                            </td>
+                        </tr>
+                    `).join('');
+
             } catch (error) {
                 console.error('Error cargando servicios:', error);
-                document.getElementById('serviciosTableBody').innerHTML = '<tr><td colspan="6" style="text-align: center; color: red;">Error al cargar servicios: ' + error.message + '</td></tr>';
+                document.getElementById('serviciosTableBody').innerHTML =
+                    `<tr><td colspan="6" class="text-center" style="color:var(--danger);">Error al cargar servicios: ${error.message}</td></tr>`;
             }
         }
 
-        // Abrir modal para nuevo/editar servicio
         function abrirModalServicio(servicio = null) {
             const modal = document.getElementById('servicioModal');
             const title = document.getElementById('modalTitle');
-            
+
             if (servicio) {
-                title.textContent = 'Editar Servicio';
+                title.textContent = '✏️ Editar Servicio';
                 document.getElementById('servicioId').value = servicio.id_servicio;
                 document.getElementById('servicioNombre').value = servicio.nombre;
                 document.getElementById('servicioDescripcion').value = servicio.descripcion || '';
                 document.getElementById('servicioPrecio').value = servicio.precio || '';
                 document.getElementById('servicioDuracion').value = servicio.duracion || '';
             } else {
-                title.textContent = 'Nuevo Servicio';
+                title.textContent = '➕ Nuevo Servicio';
                 document.getElementById('servicioForm').reset();
                 document.getElementById('servicioId').value = '';
             }
-            
-            modal.style.display = 'block';
-        }
 
-        function editarServicio(id) {
-            fetch(`${API_URL}/servicios`)
-                .then(res => res.json())
-                .then(servicios => {
-                    const servicio = servicios.find(s => s.id_servicio === id);
-                    if (servicio) {
-                        abrirModalServicio(servicio);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    mostrarAlerta('Error al cargar el servicio', 'error');
-                });
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
         }
 
         function cerrarModalServicio() {
             document.getElementById('servicioModal').style.display = 'none';
+            document.body.style.overflow = '';
         }
 
-        // Guardar servicio
+        function editarServicio(id) {
+            const servicio = serviciosData.find(s => s.id_servicio === id);
+            if (servicio) {
+                abrirModalServicio(servicio);
+            } else {
+                mostrarAlerta('Error: Servicio no encontrado', 'error');
+            }
+        }
+
         document.getElementById('servicioForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            
+
             const id = document.getElementById('servicioId').value;
             const data = {
-                nombre: document.getElementById('servicioNombre').value,
-                descripcion: document.getElementById('servicioDescripcion').value,
+                nombre: document.getElementById('servicioNombre').value.trim(),
+                descripcion: document.getElementById('servicioDescripcion').value.trim(),
                 precio: document.getElementById('servicioPrecio').value || null,
                 duracion: document.getElementById('servicioDuracion').value || null
             };
-            
+
+            if (!data.nombre) {
+                mostrarAlerta('El nombre es obligatorio', 'error');
+                return;
+            }
+
             const url = id ? `${API_URL}/servicios/${id}` : `${API_URL}/servicios`;
             const method = id ? 'PUT' : 'POST';
-            
+
             try {
                 const response = await fetch(url, {
                     method: method,
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 });
-                
+
                 const result = await response.json();
-                
+
                 if (response.ok) {
-                    mostrarAlerta(id ? 'Servicio actualizado' : 'Servicio creado', 'success');
+                    mostrarAlerta(id ? '✅ Servicio actualizado' : '✅ Servicio creado', 'success');
                     cerrarModalServicio();
                     cargarServicios();
                     cargarEstadisticas();
@@ -767,19 +1353,15 @@
             }
         });
 
-        // Eliminar servicio
         async function eliminarServicio(id) {
             if (!confirm('¿Estás seguro de eliminar este servicio?')) return;
-            
+
             try {
-                const response = await fetch(`${API_URL}/servicios/${id}`, {
-                    method: 'DELETE'
-                });
-                
+                const response = await fetch(`${API_URL}/servicios/${id}`, { method: 'DELETE' });
                 const result = await response.json();
-                
+
                 if (response.ok) {
-                    mostrarAlerta('Servicio eliminado', 'success');
+                    mostrarAlerta('✅ Servicio eliminado', 'success');
                     cargarServicios();
                     cargarEstadisticas();
                 } else {
@@ -791,30 +1373,40 @@
             }
         }
 
-        // Cambiar tabs
-        function switchTab(tab) {
+        // ===== TABS =====
+        function switchTab(tab, event) {
             const btns = document.querySelectorAll('.tab-btn');
             btns.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            
+
+            if (event && event.target) {
+                event.target.classList.add('active');
+            } else {
+                const targetBtn = Array.from(btns).find(b =>
+                    b.textContent.toLowerCase().includes(tab)
+                );
+                if (targetBtn) targetBtn.classList.add('active');
+            }
+
             document.getElementById('citasTab').classList.remove('active');
             document.getElementById('serviciosTab').classList.remove('active');
             document.getElementById(`${tab}Tab`).classList.add('active');
         }
 
-        // Mostrar alerta
-        function mostrarAlerta(mensaje, tipo) {
+        // ===== ALERTAS =====
+        function mostrarAlerta(mensaje, tipo = 'info') {
             const alert = document.createElement('div');
             alert.className = `alert alert-${tipo}`;
             alert.textContent = mensaje;
             document.body.appendChild(alert);
-            
+
             setTimeout(() => {
-                alert.remove();
+                alert.style.opacity = '0';
+                alert.style.transition = 'opacity 0.3s';
+                setTimeout(() => alert.remove(), 300);
             }, 3000);
         }
 
-        // Cerrar modal al hacer clic fuera
+        // ===== MODAL CLICK OUTSIDE =====
         window.onclick = function(event) {
             const modal = document.getElementById('servicioModal');
             if (event.target === modal) {
@@ -822,13 +1414,14 @@
             }
         }
 
-        // Inicializar
+        // ===== INICIALIZAR =====
         cargarDatos();
-        // Actualizar cada 30 segundos
+
+        // Actualizar cada 60 segundos
         setInterval(() => {
             cargarCitas();
             cargarEstadisticas();
-        }, 30000);
+        }, 60000);
     </script>
 </body>
 </html>
